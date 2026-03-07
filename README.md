@@ -104,18 +104,23 @@ That single comparison (BF16 vs Q4_K_M for one model on 3 tasks) takes a few hou
 
 ## Hardware
 
-All benchmarks are designed to run on consumer hardware. Reference machines:
+All benchmarks run on [Colmena](docs/colmena.md), a deliberately constrained 8-GPU rig built around an i3-3220 host. Each VRAM tier is benchmarked on the floor card for that tier -- if it runs here, it runs on your card.
 
-- **Primary:** Ryzen desktop + RTX 2060 SUPER (8GB VRAM) — mirrors the 8GB constraint
-- **CPU-only:** Any 8GB RAM laptop — the actual deployment target
-- **Optional:** RTX 3090 or cloud A10 for BF16 baselines that don't fit in 8GB
+| VRAM Tier | GPU | Role |
+|---|---|---|
+| 4GB | GTX 1050 Ti | Floor of 4GB tier |
+| 6GB | GTX 1060 6GB | Floor of 6GB tier |
+| 8GB | RTX 2060 Super | Floor of 8GB tier |
+| 12GB | RTX 3060 | Floor of 12GB tier |
+| 24GB | RTX 3090 | Reference ceiling |
 
-If it doesn't run on hardware you can buy secondhand for under $200, it doesn't count.
+See the [Colmena spec sheet](docs/colmena.md) for full system details and benchmark philosophy.
 
 ## Documentation
 
 Full documentation is available at the [smol-bench docs site](https://michael-borck.github.io/smol-bench/), including:
 
+- [Colmena](docs/colmena.md) — benchmark reference machine specs and philosophy
 - [Benchmarking Guide](docs/guide.md) — methodology, tools, and how to contribute results
 - [Quality Analysis](docs/quality.md) — per-task scores and quantization degradation curves
 - [Speed Analysis](docs/speed.md) — generation speed, prompt processing, time-to-first-token

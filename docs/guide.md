@@ -136,32 +136,7 @@ HuggingFace's GGUF-my-repo Space handles conversion and quantization in the clou
 
 ## Where to Run
 
-### Option 1: RTX 2060 8GB (recommended primary)
-
-**Why this is actually ideal.** The RTX 2060 has 8GB VRAM, which mirrors the total RAM constraint of typical consumer machines. A 4B model at Q4_K_M (~2.5GB) fits comfortably with room for KV cache.
-
-**What it's good for:**
-- GPU-accelerated evaluation through lm-eval-harness (faster than CPU for running the full matrix)
-- Speed benchmarks with both GPU offload and CPU-only modes
-- Perplexity sweeps
-- Realistic VRAM pressure testing
-
-**What it's not good for:**
-- BF16 baselines for 4B models (needs ~8GB just for weights, leaving nothing for KV cache). Run these on cloud or use a 3090.
-
-### Option 2: RTX 3090 (if available)
-
-24GB VRAM means BF16 baselines for all models fit easily. Use this for the reference runs if you have access to one.
-
-### Option 3: CPU-only on a Student Laptop
-
-The most representative hardware for actual deployment. Run speed benchmarks (`llama-bench` with `-ngl 0`) on whatever 8GB laptop you can get your hands on. This gives you the ground truth numbers for the target audience.
-
-For quality benchmarks (lm-eval-harness), CPU-only evaluation is slow but works. Budget 4-8 hours per model variant on a modern CPU.
-
-### Option 4: Cloud GPU (Lambda, RunPod, Vast.ai)
-
-Rent an A10 (24GB, ~$0.50/hr) or A100 for a day to blitz through the full matrix. A full evaluation at ~2 hours per variant = ~96 GPU-hours = ~$50-100 on Lambda/Vast.ai.
+All benchmarks run on [Colmena](colmena.md), a deliberately constrained 8-GPU rig. See the [Colmena spec sheet](colmena.md) for full system details, GPU lineup, and benchmark philosophy.
 
 ### Recommended Approach
 
@@ -174,6 +149,69 @@ Run the benchmarks in tiers:
 **Tier 3 (full matrix):** Expand to all 8 quant levels for top models. Shows the full degradation curve.
 
 **Tier 4 (deployment reality):** Speed benchmarks on representative hardware (CPU-only, 8GB RAM). Run llama-bench on the 2060 with `-ngl 0` and on an actual student laptop.
+
+## GPU Tier Methodology
+
+smol-bench benchmarks each VRAM tier using the **worst-in-class GPU** for that tier. This is a deliberate choice: the floor of each tier gives a conservative baseline that's more useful than a cherry-picked best case. The implicit promise is:
+
+> "If it runs here, it runs on your card."
+
+Anyone with any card in that VRAM tier is guaranteed to do at least as well as the benchmark result. This is a stronger, more honest statement than testing the best binned sample at optimal conditions.
+
+### Tier Lineup
+
+| VRAM Tier | Benchmark GPU | Bandwidth | Role |
+|---|---|---|---|
+| 4GB | GTX 1050 Ti | 112 GB/s | Floor of 4GB tier |
+| 6GB | GTX 1060 6GB | 192 GB/s | Floor of 6GB tier |
+| 8GB | RTX 2060 Super | 448 GB/s | Floor of 8GB Turing tier (all 8GB Turing cards share ~448-496 GB/s) |
+| 12GB | RTX 3060 | 360 GB/s | Floor of 12GB tier |
+| 24GB | RTX 3090 | 936 GB/s | Reference ceiling (see below) |
+
+Each card answers two questions simultaneously:
+
+1. **What can this VRAM tier run?** (model compatibility — determined by VRAM capacity)
+2. **How fast is the worst case?** (inference speed — determined by memory bandwidth)
+
+### Bandwidth Extrapolation
+
+Because the benchmark uses floor-of-tier hardware, users with faster cards in the same tier can extrapolate upward using known bandwidth ratios. Sample footnotes for each tier:
+
+**6GB tier:** "Benchmarked on a GTX 1060 6GB (192 GB/s). Users with a GTX 1660 Super (336 GB/s) or GTX 1660 Ti (288 GB/s) can expect approximately 50-75% higher token throughput on the same models. VRAM capacity and model compatibility results remain directly applicable regardless of card variant."
+
+**12GB tier:** "Benchmarked on an RTX 3060 (360 GB/s). Users with a 3080 12GB (912 GB/s) can expect significantly higher token throughput on the same models. The 3060 represents the entry point of the 12GB tier — model compatibility results apply to all 12GB cards, inference speed will be considerably higher on higher bandwidth variants."
+
+Bandwidth deltas between cards within a tier are documented in `nvidia-gpu-reference.md`.
+
+### The RTX 3090: Reference Ceiling
+
+The RTX 3090 (24GB, 936 GB/s) doesn't fit the floor-of-tier pattern. It's not a card most smol-bench users will have — it sits in an awkward middle ground where it's too expensive for the "accessible hardware" narrative but too old for the "serious AI workstation" crowd.
+
+For smol-bench it serves a different role: the **reference ceiling** for consumer secondhand hardware.
+
+- 24GB VRAM is the consumer ceiling for secondhand GPUs
+- It answers "what does the best affordable card unlock?"
+- It validates whether the floor-tier results scale predictably upward
+- The bandwidth story at 936 GB/s provides genuinely interesting comparative data against the floor cards
+
+The framing is not "here's what you should buy" but **"here's the ceiling of what's possible on consumer secondhand hardware."** The 3090 becomes the reference point everything else is measured against, not a recommendation.
+
+Most smol-bench users have 8GB cards or less. The 3090 result tells them what they're leaving on the table — and in many cases the answer will be "not as much as you'd think for small models." That's a valuable finding that validates the whole project philosophy: if the gap between a $60 floor card and a $600 ceiling card is modest for 3-4B models at Q4_K_M, it proves these models genuinely run well on budget hardware.
+
+### Benchmarking vs Personal Use
+
+This floor-of-tier philosophy serves **benchmarking** — producing conservative, widely applicable baselines. For **personal inference serving** where tokens per second matters, chasing the best-in-class card for your budget is the right strategy. Different goals, different hardware decisions.
+
+### Factory Overclocks
+
+Cards with factory overclocks are run at reference stock clocks for benchmark consistency. On Linux headless servers, `nvidia-smi` is the cleanest tool for this:
+
+```bash
+# Lock to stock reference clocks (example: GTX 1060 6GB)
+nvidia-smi --applications-clocks=2002,1506
+```
+
+OC performance headroom is noted but not measured. This controls for variables rather than ignoring them.
 
 ## The "Bang Per Bit" Visualisation
 
