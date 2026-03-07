@@ -283,6 +283,34 @@ The benchmark data frames as:
 3. **The findings:** Rankings, quantization cliffs, task sensitivity, efficiency frontiers
 4. **The implication:** Which configurations are viable for resource-constrained deployment
 
+## Community Contributions
+
+Colmena generates the reference baseline -- controlled, repeatable, well documented. But the real value of smol-bench grows when the community extends coverage across hardware Colmena will never have.
+
+### Why Community Results Matter
+
+- Results from diverse real-world environments are more credible than a single controlled rig
+- The dataset grows to cover GPUs nobody in the lab owns -- 3090s, 4090s, AMD, Apple Silicon, laptop GPUs
+- Each submission validates whether Colmena's floor-tier results hold on different hardware
+- The project shifts from "one person's benchmark" to "a community instrument with a reference implementation"
+
+### How to Contribute
+
+Run the same smol-bench test suite on your hardware and submit results. The goal is one command to run, one command to submit. The harder it is, the fewer submissions we get.
+
+Results should include:
+
+- GPU model and VRAM
+- Driver version and CUDA version
+- The standard smol-bench output (lm-eval JSON + llama-bench CSV)
+- Any relevant system context (CPU, RAM, OS)
+
+Submission format and tooling are being developed. The design constraint is simplicity -- if it takes more than a few minutes to set up and run, it's too complicated.
+
+### Apple Silicon
+
+Apple Silicon results are particularly interesting comparative data. The same smol-bench suite running on M1/M2/M3 hardware via Metal and MLX produces a direct cross-platform comparison that doesn't exist elsewhere in the literature.
+
 ## Estimated Time and Cost
 
 | Tier | What | Hardware | Time | Cost |

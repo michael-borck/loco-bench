@@ -46,6 +46,10 @@ Apple Silicon is the exception, and Poco covers that path via Metal and MLX. If 
 
 What matters for replication is capability tier, not specific parts. Match the VRAM range and CUDA support, source whatever is available locally at the time.
 
+## Colmena as Reference Baseline
+
+Colmena generates the controlled, repeatable reference results. Community members running the same smol-bench suite on their own hardware extend coverage across GPUs Colmena will never have. See the [Community Contributions](guide.md#community-contributions) section in the benchmarking guide for how to submit results.
+
 ## Benchmark Philosophy: Floor of Tier
 
 Each VRAM tier is represented by the **worst-in-class GPU** for that tier, not the best available. This gives a conservative baseline with a clear promise:
