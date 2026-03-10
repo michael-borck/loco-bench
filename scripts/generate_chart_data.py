@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate benchmark_data.js for interactive charts on smol-bench docs.
+"""Generate benchmark_data.js for interactive charts on vram-bench docs.
 
 Reads raw benchmark results (speed + quality JSON) and produces a single
 JavaScript file that assigns structured data to window.BENCHMARK_DATA.

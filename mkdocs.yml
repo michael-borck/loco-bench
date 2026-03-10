@@ -1,8 +1,8 @@
-site_name: smol-bench
-site_url: https://michael-borck.github.io/smol-bench/
-site_description: Systematic benchmarks of quantized small language models on consumer hardware
-repo_url: https://github.com/michael-borck/smol-bench
-repo_name: michael-borck/smol-bench
+site_name: vram-bench
+site_url: https://michael-borck.github.io/vram-bench/
+site_description: "I have X GB of VRAM — what's the best model I can run?"
+repo_url: https://github.com/michael-borck/vram-bench
+repo_name: michael-borck/vram-bench
 
 theme:
   name: material
@@ -42,6 +42,11 @@ nav:
     - Quality: quality.md
     - Speed: speed.md
     - Bang per Bit: bang-per-bit.md
+  - Hardware:
+    - Colmena: colmena.md
+  - Future Research:
+    - Perceived Intelligence: future/perceived-intelligence.md
+    - Multi-GPU Inference: future/multi-gpu.md
 
 markdown_extensions:
   - admonition

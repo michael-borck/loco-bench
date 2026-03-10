@@ -3,7 +3,7 @@
 Detailed quality benchmarks across 5 standard tasks from the Open LLM Leaderboard, comparing all 14 models at every quantization level.
 
 !!! note "Evaluation Framework"
-    All scores are produced by [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) using GGUF models. Metrics are accuracy (%) for MMLU, HellaSwag, ARC-Challenge; exact match for GSM8K; MC2 for TruthfulQA.
+    All scores are produced by [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness). GGUF models are used for quantized variants; full-precision models are evaluated directly via HuggingFace Transformers. Metrics are accuracy (%) for MMLU, HellaSwag, ARC-Challenge; exact match for GSM8K; MC2 for TruthfulQA.
 
 ## Per-Task Comparison at Q4_K_M
 
@@ -11,9 +11,9 @@ Q4_K_M is the default quantization level for most local deployment. This chart s
 
 <div id="chart-quality-tasks" class="plotly-chart"></div>
 
-## Quantization Degradation Curves
+## Quality vs Precision
 
-How does quality change as you reduce precision? Each line represents one model family. The x-axis is bits per weight (BF16=16 down to Q2_K=2.6). Steeper drops indicate higher quantization sensitivity.
+How does quality change as you reduce precision? Each line represents one model family. The x-axis is bits per weight (BF16=16 down to Q2_K=2.6). Steeper drops indicate higher quantization sensitivity. Full-precision small models appear as horizontal reference lines for comparison within the same VRAM budget.
 
 <div id="chart-quality-degradation" class="plotly-chart"></div>
 

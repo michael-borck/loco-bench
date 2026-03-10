@@ -1,16 +1,16 @@
 # Benchmarking Guide
 
-This document covers how to run smol-bench benchmarks, what hardware to use, and how to produce the "bang per bit" analysis that fills a genuine gap in the literature.
+This document covers how to run vram-bench benchmarks, what hardware to use, and how to produce the "bang per bit" analysis that fills a genuine gap in the literature.
 
 ## What We're Measuring and Why
 
-Most published benchmarks evaluate full-precision models. A January 2026 paper ("Which Quantization Should I Use?") did a thorough job of benchmarking Llama-3.1-8B across all GGUF quantization levels, but nobody has done the equivalent for the 3-4B class across multiple model families. That's the gap smol-bench fills.
+Most published benchmarks evaluate full-precision models on cloud hardware. Nobody systematically compares everything that fits within a given VRAM budget — full-precision small models against quantized larger models — on consumer hardware. That's the gap vram-bench fills.
 
 We're running two distinct benchmarks that serve different purposes:
 
-**Benchmark A: "Does quantization change the rankings?"** Take 14 models, quantize each at 8 precision levels, and evaluate on standard tasks. This answers whether full-precision fine-tuning rankings hold after Q4_K_M quantization. Publishable as a standalone table/paper.
+**Benchmark A: "What's best for my VRAM budget?"** Within each VRAM tier (4GB, 6GB, 8GB, 12GB, 24GB), compare every model that fits — whether full-precision or quantized — on standard tasks. This answers which model+precision combination gives the most capability for a given hardware constraint.
 
-**Benchmark B: "What's the real user experience?"** Run Q4_K_M models on actual target hardware (CPU, 8GB RAM) and measure tokens/sec, time-to-first-token, and memory usage alongside quality. This connects quality numbers to deployment reality.
+**Benchmark B: "What's the real user experience?"** Run the top models per tier on actual target hardware and measure tokens/sec, time-to-first-token, and memory usage alongside quality. This connects quality numbers to deployment reality.
 
 ## The Test Matrix
 
@@ -152,11 +152,13 @@ Run the benchmarks in tiers:
 
 ## GPU Tier Methodology
 
-smol-bench benchmarks each VRAM tier using the **worst-in-class GPU** for that tier. This is a deliberate choice: the floor of each tier gives a conservative baseline that's more useful than a cherry-picked best case. The implicit promise is:
+vram-bench benchmarks each VRAM tier using the **worst-in-class GPU** for that tier. This is a deliberate choice: the floor of each tier gives a conservative baseline that's more useful than a cherry-picked best case. The implicit promise is:
 
 > "If it runs here, it runs on your card."
 
 Anyone with any card in that VRAM tier is guaranteed to do at least as well as the benchmark result. This is a stronger, more honest statement than testing the best binned sample at optimal conditions.
+
+Within each tier, the model set includes both **full-precision small models** (e.g., SmolLM2-1.7B at BF16) and **quantized larger models** (e.g., Qwen3-4B at Q4_K_M). If they fit in the same VRAM budget, they compete head-to-head.
 
 ### Tier Lineup
 
@@ -185,9 +187,9 @@ Bandwidth deltas between cards within a tier are documented in `nvidia-gpu-refer
 
 ### The RTX 3090: Reference Ceiling
 
-The RTX 3090 (24GB, 936 GB/s) doesn't fit the floor-of-tier pattern. It's not a card most smol-bench users will have — it sits in an awkward middle ground where it's too expensive for the "accessible hardware" narrative but too old for the "serious AI workstation" crowd.
+The RTX 3090 (24GB, 936 GB/s) doesn't fit the floor-of-tier pattern. It's not a card most vram-bench users will have — it sits in an awkward middle ground where it's too expensive for the "accessible hardware" narrative but too old for the "serious AI workstation" crowd.
 
-For smol-bench it serves a different role: the **reference ceiling** for consumer secondhand hardware.
+For vram-bench it serves a different role: the **reference ceiling** for consumer secondhand hardware.
 
 - 24GB VRAM is the consumer ceiling for secondhand GPUs
 - It answers "what does the best affordable card unlock?"
@@ -196,7 +198,7 @@ For smol-bench it serves a different role: the **reference ceiling** for consume
 
 The framing is not "here's what you should buy" but **"here's the ceiling of what's possible on consumer secondhand hardware."** The 3090 becomes the reference point everything else is measured against, not a recommendation.
 
-Most smol-bench users have 8GB cards or less. The 3090 result tells them what they're leaving on the table — and in many cases the answer will be "not as much as you'd think for small models." That's a valuable finding that validates the whole project philosophy: if the gap between a $60 floor card and a $600 ceiling card is modest for 3-4B models at Q4_K_M, it proves these models genuinely run well on budget hardware.
+Most vram-bench users have 8GB cards or less. The 3090 result tells them what they're leaving on the table — and in many cases the answer will be "not as much as you'd think for small models." That's a valuable finding that validates the whole project philosophy: if the gap between a $60 floor card and a $600 ceiling card is modest for 3-4B models at Q4_K_M, it proves these models genuinely run well on budget hardware.
 
 ### Benchmarking vs Personal Use
 
@@ -252,7 +254,7 @@ This shows whether fine-tuning recovers quantization losses. If the adapter line
 Upload the raw results as a HuggingFace Dataset. This makes the data reproducible and citable.
 
 ```
-smol-bench/quantized-slm-benchmark
+vram-bench/results
   results/
     qwen3-4b-instruct/
       bf16.json
@@ -285,7 +287,7 @@ The benchmark data frames as:
 
 ## Community Contributions
 
-Colmena generates the reference baseline -- controlled, repeatable, well documented. But the real value of smol-bench grows when the community extends coverage across hardware Colmena will never have.
+Colmena generates the reference baseline -- controlled, repeatable, well documented. But the real value of vram-bench grows when the community extends coverage across hardware Colmena will never have.
 
 ### Why Community Results Matter
 
@@ -296,20 +298,20 @@ Colmena generates the reference baseline -- controlled, repeatable, well documen
 
 ### How to Contribute
 
-Run the same smol-bench test suite on your hardware and submit results. The goal is one command to run, one command to submit. The harder it is, the fewer submissions we get.
+Run the same vram-bench test suite on your hardware and submit results. The goal is one command to run, one command to submit. The harder it is, the fewer submissions we get.
 
 Results should include:
 
 - GPU model and VRAM
 - Driver version and CUDA version
-- The standard smol-bench output (lm-eval JSON + llama-bench CSV)
+- The standard vram-bench output (lm-eval JSON + llama-bench CSV)
 - Any relevant system context (CPU, RAM, OS)
 
 Submission format and tooling are being developed. The design constraint is simplicity -- if it takes more than a few minutes to set up and run, it's too complicated.
 
 ### Apple Silicon
 
-Apple Silicon results are particularly interesting comparative data. The same smol-bench suite running on M1/M2/M3 hardware via Metal and MLX produces a direct cross-platform comparison that doesn't exist elsewhere in the literature.
+Apple Silicon results are particularly interesting comparative data. The same vram-bench suite running on M1/M2/M3 hardware via Metal and MLX produces a direct cross-platform comparison that doesn't exist elsewhere in the literature.
 
 ## Estimated Time and Cost
 

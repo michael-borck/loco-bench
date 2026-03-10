@@ -1,6 +1,6 @@
 # Colmena: Benchmark Reference Machine
 
-Colmena is the dedicated hardware platform used for all smol-bench benchmarks. Understanding its specifications is essential for interpreting results and extrapolating to your own hardware.
+Colmena is the dedicated hardware platform used for all vram-bench benchmarks. Understanding its specifications is essential for interpreting results and extrapolating to your own hardware.
 
 ## System Specifications
 
@@ -32,7 +32,7 @@ Colmena is the dedicated hardware platform used for all smol-bench benchmarks. U
 
 Colmena is a deliberately constrained machine. The i3-3220 CPU, 8GB RAM ceiling, and modest storage exist by design, not accident.
 
-The CPU's job is to boot the OS and manage the PCIe bus. The GPUs do the work. Over-speccing the host system would make Colmena a *worse* research instrument -- smol-bench benchmarks GPU capability on modest hardware, which is what most users actually have.
+The CPU's job is to boot the OS and manage the PCIe bus. The GPUs do the work. Over-speccing the host system would make Colmena a *worse* research instrument -- vram-bench benchmarks GPU capability on modest hardware, which is what most users actually have.
 
 The RAM constraint means sequential rather than fully parallel benchmarking. Results are identical -- same hardware, same models -- the runs just don't happen simultaneously. For CloudCore inference serving, one or two active instances at a time is realistic for student load anyway.
 
@@ -40,7 +40,7 @@ The RAM constraint means sequential rather than fully parallel benchmarking. Res
 
 The entire local LLM toolchain -- Ollama, llama.cpp, PyTorch, bitsandbytes, Unsloth -- targets CUDA first. AMD's ROCm stack exists and is improving, but driver support is narrower, community troubleshooting is thinner, and the tooling friction is meaningfully higher. Intel Arc is earlier still. For a lab that needs to work reliably with minimal sysadmin overhead, CUDA is the only practical choice today.
 
-The secondhand market reinforces this. The cryptocurrency mining boom flooded resale channels with Nvidia consumer cards at accessible prices. AMD equivalents at the same VRAM tiers are rarer and less standardised. And the overwhelming majority of users running local LLMs on consumer hardware are on Nvidia -- smol-bench floor cards need to represent what people actually have.
+The secondhand market reinforces this. The cryptocurrency mining boom flooded resale channels with Nvidia consumer cards at accessible prices. AMD equivalents at the same VRAM tiers are rarer and less standardised. And the overwhelming majority of users running local LLMs on consumer hardware are on Nvidia -- vram-bench floor cards need to represent what people actually have.
 
 Apple Silicon is the exception, and Poco covers that path via Metal and MLX. If ROCm matures to the point where an AMD card is a genuine drop-in for Ollama inference, it becomes a candidate for a Colmena slot. That day isn't today.
 
@@ -48,7 +48,7 @@ What matters for replication is capability tier, not specific parts. Match the V
 
 ## Colmena as Reference Baseline
 
-Colmena generates the controlled, repeatable reference results. Community members running the same smol-bench suite on their own hardware extend coverage across GPUs Colmena will never have. See the [Community Contributions](guide.md#community-contributions) section in the benchmarking guide for how to submit results.
+Colmena generates the controlled, repeatable reference results. Community members running the same vram-bench suite on their own hardware extend coverage across GPUs Colmena will never have. See the [Community Contributions](guide.md#community-contributions) section in the benchmarking guide for how to submit results.
 
 ## Benchmark Philosophy: Floor of Tier
 
@@ -60,11 +60,11 @@ Community submissions extend each tier upward. The bandwidth delta within each t
 
 ### Why the RTX 3090?
 
-The 3090 sits in an awkward market position -- too old for enthusiasts, too expensive for budget builders. But for smol-bench it serves as the **reference ceiling** for consumer secondhand hardware:
+The 3090 sits in an awkward market position -- too old for enthusiasts, too expensive for budget builders. But for vram-bench it serves as the **reference ceiling** for consumer secondhand hardware:
 
 - 24GB VRAM is the consumer ceiling for secondhand GPUs
 - Validates whether floor-tier results scale predictably upward
 - 936 GB/s bandwidth provides genuinely interesting comparative data
-- Most smol-bench users have 8GB cards or less -- the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
+- Most vram-bench users have 8GB cards or less -- the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
 
 The 3090 is framed as a research instrument, not an aspirational purchase. Reserved via work research budget with a patient acquisition strategy.

@@ -27,5 +27,8 @@ models/
 .DS_Store
 Thumbs.db
 
+# Research source PDFs (too large for git)
+docs/sources/*.pdf
+
 # MkDocs build
 site/

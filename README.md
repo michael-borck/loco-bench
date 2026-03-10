@@ -1,53 +1,58 @@
-# smol-bench
+# vram-bench
 
-**Systematic benchmarks of quantized small language models on consumer hardware.**
+**I have X GB of VRAM — what's the best model I can run?**
 
-Most published LLM benchmarks evaluate full-precision models on data centre GPUs. smol-bench fills the gap: what actually happens when you quantize 1-7B parameter models to 4-bit and run them on hardware you can buy secondhand for under $200?
+HuggingFace tells you which small model is best at full precision. The Open LLM Leaderboard tells you which large model is best on datacenter GPUs. **vram-bench tells you which model is best for your actual card.**
 
-## What This Is
+Most benchmarks compare models under ideal conditions. vram-bench compares everything that fits within a given VRAM budget — full-precision small models, quantized larger models, and everything in between — on real consumer hardware.
 
-A controlled evaluation of **14 models** across **8 quantization levels** (112 variants) on standard benchmarks, measured on real consumer hardware.
+A full-precision SmolLM2-1.7B and a Q4_K_M Qwen3-4B both fit in 4GB of VRAM. Which one is actually better? That's the question vram-bench answers.
 
-The goal is to answer questions that existing leaderboards do not:
+## How It Works
 
-- **Do full-precision rankings hold after quantization?** If Model A beats Model B at BF16, does it still win at Q4_K_M?
-- **Where are the quantization cliffs?** At what precision level does each model break, and which tasks break first?
-- **What is the efficiency frontier?** For a given RAM budget, which model+quant combination gives the most capability per byte?
-- **What does deployment actually feel like?** Tokens per second, time-to-first-token, and memory usage on CPU-only hardware.
+Models are organised by **VRAM tier**, not by model family or parameter count. Each tier represents a class of consumer GPU:
 
-## The Test Matrix
-
-### Models
-
-| Model | Parameters | Why Include |
+| VRAM Tier | Benchmark GPU | What Competes |
 |---|---|---|
-| Qwen3-4B-Instruct | 4B | distil labs #1 for fine-tuning |
-| Qwen3-1.7B | 1.7B | Smallest viable Qwen; tests scaling |
-| Llama 3.2-3B-Instruct | 3.2B | Different architecture; strong baseline |
-| Llama 3.2-1B-Instruct | 1B | Tests quantization cliff at small scale |
-| Phi-4-Mini (3.8B) | 3.8B | Strong reasoning claims |
-| Gemma 3-1B-it | 1B | Different tokenizer |
-| Gemma 3-4B-it | 4B | Scaling comparison against 1B |
-| DeepSeek-R1-Distill-Qwen-1.5B | 1.5B | Distilled reasoning at micro scale |
-| SmolLM2-1.7B | 1.7B | HuggingFace on-device contender |
-| Ministral 3B | 3B | Mistral edge-optimized |
-| Qwen2.5-Coder-3B | 3B | Domain-specific (coding) baseline |
-| Phi-4-Mini-Reasoning | 3.8B | Reasoning distillation comparison |
-| DeepSeek-R1-Distill-Qwen-7B | 7B | Does a heavily quantized 7B beat a 4B at Q4_K_M? |
-| TinyLlama-1.1B | 1.1B | Community baseline |
+| 4GB | GTX 1050 Ti | BF16 models ≤2B, quantized models ≤4B |
+| 6GB | GTX 1060 6GB | BF16 models ≤3B, quantized models ≤7B |
+| 8GB | RTX 2060 Super | BF16 models ≤4B, quantized 7B models |
+| 12GB | RTX 3060 | BF16 models ≤7B, lightly quantized 7B+ |
+| 24GB | RTX 3090 | Reference ceiling |
 
-### Quantization Levels
+Within each tier, every model that fits competes on equal footing: quality, speed, and efficiency.
 
-| Quant | Approx bpw | Purpose |
-|---|---|---|
-| BF16 | 16 | Reference baseline |
-| Q8_0 | 8 | Near-lossless |
-| Q6_K | 6.6 | High quality, moderate compression |
-| Q5_K_M | 5.7 | Often cited as best quality/size balance |
-| Q4_K_M | 4.8 | The critical data point for local deployment |
-| Q4_0 | 4.0 | Simpler quantization; speed comparison |
-| Q3_K_M | 3.4 | Tests where quality collapses |
-| Q2_K | 2.6 | Extreme compression; documenting the floor |
+Each tier is benchmarked on the **worst-in-class GPU** for that VRAM level. If it runs here, it runs on your card.
+
+## The Model Matrix
+
+### Full-Precision Small Models
+
+| Model | Parameters | BF16 Size | Fits in Tier |
+|---|---|---|---|
+| SmolLM2-1.7B | 1.7B | ~3.4 GB | 4GB+ |
+| SmolLM3-3B | 3B | ~6 GB | 8GB+ |
+| Gemma 3-1B-it | 1B | ~2 GB | 4GB+ |
+| TinyLlama-1.1B | 1.1B | ~2.2 GB | 4GB+ |
+
+### Quantized Models (Q4_K_M and other levels)
+
+| Model | Parameters | Q4_K_M Size | Fits in Tier |
+|---|---|---|---|
+| Qwen3-4B-Instruct | 4B | ~2.5 GB | 4GB+ |
+| Llama 3.2-3B-Instruct | 3.2B | ~2.0 GB | 4GB+ |
+| Phi-4-Mini (3.8B) | 3.8B | ~2.4 GB | 4GB+ |
+| Gemma 3-4B-it | 4B | ~2.5 GB | 4GB+ |
+| DeepSeek-R1-Distill-Qwen-7B | 7B | ~4.4 GB | 6GB+ |
+| Qwen3-1.7B | 1.7B | ~1.1 GB | 4GB+ |
+| DeepSeek-R1-Distill-Qwen-1.5B | 1.5B | ~1.0 GB | 4GB+ |
+| SmolLM2-1.7B | 1.7B | ~1.1 GB | 4GB+ |
+| Ministral 3B | 3B | ~1.9 GB | 4GB+ |
+| Qwen2.5-Coder-3B | 3B | ~1.9 GB | 4GB+ |
+| Phi-4-Mini-Reasoning | 3.8B | ~2.4 GB | 4GB+ |
+| Llama 3.2-1B-Instruct | 1B | ~0.6 GB | 4GB+ |
+| Gemma 3-1B-it | 1B | ~0.6 GB | 4GB+ |
+| TinyLlama-1.1B | 1.1B | ~0.7 GB | 4GB+ |
 
 ### Tasks
 
@@ -61,29 +66,21 @@ Standard benchmarks from the Open LLM Leaderboard (via [lm-evaluation-harness](h
 
 Plus speed and efficiency metrics: tokens/sec, time-to-first-token, peak RAM, perplexity.
 
-## Key Finding (Preliminary)
-
-Q4_K_M consistently sits in the efficiency sweet spot — retaining **90-95% of BF16 quality** at roughly **30% of the file size**. Below Q3_K_M, quality collapses sharply for knowledge-heavy tasks.
-
-> **Note:** Current charts show simulated data generated with realistic degradation curves. They will be replaced with real benchmark results as evaluation completes.
-
 ## Quick Start
-
-Run a single useful benchmark today:
 
 ```bash
 # Install the evaluation harness
 pip install lm-eval[hf]
 
-# Evaluate BF16 baseline
+# Evaluate a full-precision small model
 lm_eval --model hf \
-  --model_args pretrained=Qwen/Qwen3-4B-Instruct \
+  --model_args pretrained=HuggingFaceTB/SmolLM2-1.7B-Instruct \
   --tasks mmlu,gsm8k,hellaswag \
   --device cuda:0 \
   --batch_size auto \
-  --output_path results/qwen3-4b-bf16/
+  --output_path results/smollm2-1.7b-bf16/
 
-# Evaluate the same model at Q4_K_M
+# Evaluate a quantized model at the same VRAM budget
 lm_eval --model hf \
   --model_args pretrained=/path/to/gguf/,gguf_file=qwen3-4b-q4_k_m.gguf,tokenizer=Qwen/Qwen3-4B-Instruct \
   --tasks mmlu,gsm8k,hellaswag \
@@ -92,7 +89,16 @@ lm_eval --model hf \
   --output_path results/qwen3-4b-q4_k_m/
 ```
 
-That single comparison (BF16 vs Q4_K_M for one model on 3 tasks) takes a few hours on an RTX 2060 and immediately shows how much quantization costs.
+That comparison — full-precision 1.7B vs quantized 4B at the same VRAM footprint — is the core of what vram-bench measures.
+
+## Turnkey Benchmarking (Planned)
+
+```bash
+pip install vram-bench
+vram-bench detect          # reads your GPU, reports VRAM tier
+vram-bench run --tier 8gb  # runs the appropriate model set for your tier
+vram-bench submit          # packages results for community submission
+```
 
 ## Scripts
 
@@ -101,10 +107,11 @@ That single comparison (BF16 vs Q4_K_M for one model on 3 tasks) takes a few hou
 | `scripts/benchmark_quality.py` | Run lm-evaluation-harness across GGUF models |
 | `scripts/benchmark_speed.py` | Run llama-bench for speed metrics |
 | `scripts/generate_chart_data.py` | Generate interactive chart data from results |
+| `scripts/download_models.sh` | Download all GGUF models for the benchmark matrix |
 
 ## Hardware
 
-All benchmarks run on [Colmena](docs/colmena.md), a deliberately constrained 8-GPU rig built around an i3-3220 host. Each VRAM tier is benchmarked on the floor card for that tier -- if it runs here, it runs on your card.
+All benchmarks run on [Colmena](docs/colmena.md), a deliberately constrained 8-GPU rig built around an i3-3220 host. Each VRAM tier is benchmarked on the floor card for that tier — if it runs here, it runs on your card.
 
 | VRAM Tier | GPU | Role |
 |---|---|---|
@@ -118,7 +125,7 @@ See the [Colmena spec sheet](docs/colmena.md) for full system details and benchm
 
 ## Documentation
 
-Full documentation is available at the [smol-bench docs site](https://michael-borck.github.io/smol-bench/), including:
+Full documentation is available at the [vram-bench docs site](https://michael-borck.github.io/vram-bench/), including:
 
 - [Colmena](docs/colmena.md) — benchmark reference machine specs and philosophy
 - [Benchmarking Guide](docs/guide.md) — methodology, tools, and how to contribute results
@@ -130,14 +137,21 @@ Full documentation is available at the [smol-bench docs site](https://michael-bo
 
 - **HuggingFace Dataset:** Raw results (JSON from lm-eval + llama-bench CSVs) for reproducibility
 - **HuggingFace Space:** Interactive dashboard for exploring the data
-- **Technical Report:** arXiv paper documenting methodology and findings
+- **Technical Report:** Methodology and findings
 - **Blog Post:** Accessible "bang per bit" analysis for the local LLM community
 
 ## Related Projects
 
-- [LocoLLM](https://github.com/michael-borck/loco-llm) — uses smol-bench data to inform base model selection for a routed adapter system
+- [LocoLLM](https://github.com/michael-borck/loco-llm) — uses vram-bench data to inform base model selection for a routed adapter system
 - [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) — the evaluation backend
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) — quantization and inference engine
+
+## Future Research
+
+These experiments are tracked for potential spinoff into their own projects:
+
+- **[Perceived Intelligence vs Token Rate](docs/future/perceived-intelligence.md)** — does a faster small model feel smarter than a slower large model?
+- **[Multi-GPU Inference on Consumer Hardware](docs/future/multi-gpu.md)** — is pooling VRAM across two cheap cards worth the PCIe penalty?
 
 ## Contributing
 

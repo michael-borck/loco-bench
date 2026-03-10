@@ -229,7 +229,7 @@ download_tinyllama() {
 # ─────────────────────────────────────────────────────────────────────
 
 echo "========================================"
-echo "smol-bench Model Downloader"
+echo "vram-bench Model Downloader"
 echo "========================================"
 echo "Destination: $MODELS_DIR/"
 if $Q4_ONLY; then
