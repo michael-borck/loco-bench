@@ -20,6 +20,9 @@ VRAM needed ≈ file_size × 1.2 + 0.5 GB
 
 These are conservative estimates. Actual usage depends on context length, batch size, and framework.
 
+!!! warning "Context Length and VRAM"
+    The estimates above assume **short context** (~512 tokens), which matches the standard benchmarks (MMLU, HellaSwag, GSM8K, etc.). Longer contexts increase VRAM usage through the KV cache — at 8K–32K tokens, KV cache can add 1–4 GB depending on model architecture. A model that fits comfortably in a tier at short context may not fit at longer context lengths. See [Context Length Effects](future/context-length.md) for a deeper discussion.
+
 ## Tier Definitions
 
 ### 4GB Tier — GTX 1050 Ti
