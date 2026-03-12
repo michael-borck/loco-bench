@@ -1,8 +1,8 @@
-site_name: vram-bench
-site_url: https://michael-borck.github.io/vram-bench/
+site_name: loco-bench
+site_url: https://locobench.org/
 site_description: "I have X GB of VRAM — what's the best model I can run?"
-repo_url: https://github.com/michael-borck/vram-bench
-repo_name: michael-borck/vram-bench
+repo_url: https://github.com/michael-borck/loco-bench
+repo_name: michael-borck/loco-bench
 
 theme:
   name: material
@@ -45,11 +45,6 @@ nav:
   - Hardware:
     - Colmena: colmena.md
     - VRAM Tiers: tiers.md
-  - Future Research:
-    - Perceived Intelligence: future/perceived-intelligence.md
-    - Multi-GPU Inference: future/multi-gpu.md
-    - Multi-GPU Guide: future/multi-gpu-ai-inference.md
-    - Context Length Effects: future/context-length.md
 
 markdown_extensions:
   - admonition

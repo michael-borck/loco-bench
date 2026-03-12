@@ -1,12 +1,12 @@
-# vram-bench
+# loco-bench
 
 **I have X GB of VRAM — what's the best model I can run?**
 
-HuggingFace tells you which small model is best at full precision. The Open LLM Leaderboard tells you which large model is best on datacenter GPUs. **vram-bench tells you which model is best for your actual card.**
+HuggingFace tells you which small model is best at full precision. The Open LLM Leaderboard tells you which large model is best on datacenter GPUs. **loco-bench tells you which model is best for your actual card.**
 
-Most benchmarks compare models under ideal conditions. vram-bench compares everything that fits within a given VRAM budget — full-precision small models, quantized larger models, and everything in between — on real consumer hardware.
+Most benchmarks compare models under ideal conditions. loco-bench compares everything that fits within a given VRAM budget — full-precision small models, quantized larger models, and everything in between — on real consumer hardware.
 
-A full-precision SmolLM2-1.7B and a Q4_K_M Qwen3-4B both fit in 4GB of VRAM. Which one is actually better? That's the question vram-bench answers.
+A full-precision SmolLM2-1.7B and a Q4_K_M Qwen3-4B both fit in 4GB of VRAM. Which one is actually better? That's the question loco-bench answers.
 
 ## How It Works
 
@@ -86,15 +86,15 @@ lm_eval --model hf \
   --output_path results/qwen3-4b-q4_k_m/
 ```
 
-That comparison — full-precision 1.7B vs quantized 4B at the same VRAM footprint — is the core of what vram-bench measures.
+That comparison — full-precision 1.7B vs quantized 4B at the same VRAM footprint — is the core of what loco-bench measures.
 
 ## Turnkey Benchmarking (Planned)
 
 ```bash
-pip install vram-bench
-vram-bench detect          # reads your GPU, reports VRAM tier
-vram-bench run --tier 8gb  # runs the appropriate model set for your tier
-vram-bench submit          # packages results for community submission
+pip install loco-bench
+loco-bench detect          # reads your GPU, reports VRAM tier
+loco-bench run --tier 8gb  # runs the appropriate model set for your tier
+loco-bench submit          # packages results for community submission
 ```
 
 ## Scripts
@@ -118,7 +118,7 @@ bash scripts/convert_and_quantize.sh HuggingFaceTB/SmolLM2-1.7B-Instruct
 # Just Q4_K_M (fast)
 bash scripts/convert_and_quantize.sh google/gemma-3-1b-it --q4-only
 
-# Convert and upload to the vram-bench HuggingFace org
+# Convert and upload to the loco-bench HuggingFace org
 bash scripts/convert_and_quantize.sh HuggingFaceTB/SmolLM2-1.7B-Instruct --upload
 ```
 
@@ -140,7 +140,7 @@ See the [Colmena spec sheet](docs/colmena.md) for full system details and benchm
 
 ## Documentation
 
-Full documentation is available at the [vram-bench docs site](https://michael-borck.github.io/vram-bench/), including:
+Full documentation is available at the [loco-bench docs site](https://locobench.org/), including:
 
 - [Colmena](docs/colmena.md) — benchmark reference machine specs and philosophy
 - [Benchmarking Guide](docs/guide.md) — methodology, tools, and how to contribute results
@@ -150,7 +150,7 @@ Full documentation is available at the [vram-bench docs site](https://michael-bo
 
 ## Publishing Plan
 
-- **HuggingFace Org ([vram-bench](https://huggingface.co/vram-bench)):** Central home for models, data, and the dashboard
+- **HuggingFace Org ([loco-bench](https://huggingface.co/loco-bench)):** Central home for models, data, and the dashboard
   - **Model repos:** GGUFs we produce ourselves (filling gaps where no pre-built GGUF exists)
   - **Dataset:** Raw benchmark results (JSON from lm-eval + llama-bench CSVs) for reproducibility
   - **Space:** Interactive dashboard for exploring results by VRAM tier
@@ -159,16 +159,17 @@ Full documentation is available at the [vram-bench docs site](https://michael-bo
 
 ## Related Projects
 
-- [LocoLLM](https://github.com/michael-borck/loco-llm) — uses vram-bench data to inform base model selection for a routed adapter system
+- [LocoLLM](https://github.com/michael-borck/loco-llm) — uses LocoBench data to inform base model selection for a routed adapter system
 - [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) — the evaluation backend
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) — quantization and inference engine
 
-## Future Research
+## Related Research
 
-These experiments are tracked for potential spinoff into their own projects:
+These experiments have spun off into their own projects:
 
-- **[Perceived Intelligence vs Token Rate](docs/future/perceived-intelligence.md)** — does a faster small model feel smarter than a slower large model?
-- **[Multi-GPU Inference on Consumer Hardware](docs/future/multi-gpu.md)** — is pooling VRAM across two cheap cards worth the PCIe penalty?
+- **[LocoConvoy](https://github.com/michael-borck/loco-convoy)** — multi-GPU inference on consumer hardware
+- **Perceived Intelligence vs Token Rate** — does a faster small model feel smarter than a slower large model?
+- **Context Length Effects** — how does context length affect quality, speed, and VRAM usage for small models?
 
 ## Contributing
 

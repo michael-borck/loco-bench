@@ -1,5 +1,5 @@
 [project]
-name = "vram-bench"
+name = "loco-bench"
 version = "0.1.0"
 description = "I have X GB of VRAM — what's the best model I can run?"
 readme = "README.md"

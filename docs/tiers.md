@@ -1,6 +1,6 @@
 # VRAM Tier Reference
 
-The organising principle of vram-bench: **models are grouped by what fits in your VRAM budget, not by model family or parameter count.**
+The organising principle of loco-bench: **models are grouped by what fits in your VRAM budget, not by model family or parameter count.**
 
 Within each tier, every model that fits — at any precision level — competes on quality, speed, and efficiency.
 
@@ -21,7 +21,7 @@ VRAM needed ≈ file_size × 1.2 + 0.5 GB
 These are conservative estimates. Actual usage depends on context length, batch size, and framework.
 
 !!! warning "Context Length and VRAM"
-    The estimates above assume **short context** (~512 tokens), which matches the standard benchmarks (MMLU, HellaSwag, GSM8K, etc.). Longer contexts increase VRAM usage through the KV cache — at 8K–32K tokens, KV cache can add 1–4 GB depending on model architecture. A model that fits comfortably in a tier at short context may not fit at longer context lengths. See [Context Length Effects](future/context-length.md) for a deeper discussion.
+    The estimates above assume **short context** (~512 tokens), which matches the standard benchmarks (MMLU, HellaSwag, GSM8K, etc.). Longer contexts increase VRAM usage through the KV cache — at 8K–32K tokens, KV cache can add 1–4 GB depending on model architecture. A model that fits comfortably in a tier at short context may not fit at longer context lengths. Context length effects on small models are an active area of research in the lab.
 
 ## Tier Definitions
 
@@ -120,7 +120,7 @@ These tiers use Colmena's multiple RTX 2060 Supers with VRAM pooled across cards
 
 **Why this is interesting:** The RTX 2060 Super's 448 GB/s memory bandwidth exceeds the RTX 3060 (360 GB/s), RTX 4060 (272 GB/s), and RTX 4060 Ti (288 GB/s). Token generation is bandwidth-bound, so pooled 2060 Supers may outperform newer single cards at the same total VRAM — despite the PCIe splitting overhead.
 
-The key experiment is measuring how much throughput the PCIe interconnect costs. See [Multi-GPU Inference](future/multi-gpu.md) for the full proposal.
+The key experiment is measuring how much throughput the PCIe interconnect costs. See the [LocoConvoy](https://github.com/michael-borck/loco-convoy) project for the full proposal.
 
 These tiers will be added once single-card benchmarks are complete and the multi-GPU overhead is quantified.
 
@@ -137,4 +137,4 @@ Summary view — the maximum parameter count that comfortably fits at each preci
 | 8GB | ≤3B | ≤4B | ≤7B | ≤7B+ |
 | 12GB | ≤4B | ≤7B | ≤14B | ≤14B+ |
 
-This is the decision matrix vram-bench produces data for. The question is always: **within your VRAM budget, which combination of model size and precision gives the best results?**
+This is the decision matrix loco-bench produces data for. The question is always: **within your VRAM budget, which combination of model size and precision gives the best results?**

@@ -1,8 +1,8 @@
-# vram-bench
+# loco-bench
 
 **I have X GB of VRAM — what's the best model I can run?**
 
-HuggingFace tells you which small model is best at full precision. The Open LLM Leaderboard tells you which large model is best on datacenter GPUs. **vram-bench tells you which model is best for your actual card.**
+HuggingFace tells you which small model is best at full precision. The Open LLM Leaderboard tells you which large model is best on datacenter GPUs. **loco-bench tells you which model is best for your actual card.**
 
 Within each VRAM tier, full-precision small models compete head-to-head against quantized larger models. A BF16 SmolLM2-1.7B and a Q4_K_M Qwen3-4B both fit in 4GB — but which one actually wins?
 
@@ -60,7 +60,7 @@ Composite score averages across MMLU, HellaSwag, GSM8K, TruthfulQA, and ARC-Chal
 
 ## Why This Exists
 
-Most published benchmarks compare models under ideal conditions — full precision, datacenter GPUs. Nobody systematically compares everything that fits within a given VRAM budget on consumer hardware. vram-bench fills that gap.
+Most published benchmarks compare models under ideal conditions — full precision, datacenter GPUs. Nobody systematically compares everything that fits within a given VRAM budget on consumer hardware. loco-bench fills that gap.
 
 The organising principle is the hardware constraint. Models are grouped by VRAM tier (4GB, 6GB, 8GB, 12GB, 24GB), and within each tier, every model that fits — whether full-precision or quantized — competes on quality, speed, and efficiency.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Convert a HuggingFace model to GGUF and quantize to all vram-bench levels.
+# Convert a HuggingFace model to GGUF and quantize to all loco-bench levels.
 #
 # This script handles the full pipeline:
 #   1. Download a HuggingFace model (if not already local)
@@ -16,7 +16,7 @@
 #   bash scripts/convert_and_quantize.sh google/gemma-3-1b-it --q4-only
 #   bash scripts/convert_and_quantize.sh ./local/model/path --skip-download
 #
-# Output goes to models/ with standard vram-bench naming:
+# Output goes to models/ with standard loco-bench naming:
 #   models/{ModelName}-BF16.gguf
 #   models/{ModelName}-Q8_0.gguf
 #   models/{ModelName}-Q4_K_M.gguf
@@ -75,7 +75,7 @@ MODEL_ID=""
 Q4_ONLY=false
 SKIP_DOWNLOAD=false
 UPLOAD=false
-HF_ORG="${HF_ORG:-vram-bench}"
+HF_ORG="${HF_ORG:-loco-bench}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -100,7 +100,7 @@ if [[ -z "$MODEL_ID" ]]; then
     echo "  --q4-only           Only produce Q4_K_M (skip other quant levels)"
     echo "  --skip-download     Model is already local; skip HuggingFace download"
     echo "  --upload            Upload produced GGUFs to HuggingFace (requires hf auth)"
-    echo "  --hf-org NAME       HuggingFace org for uploads (default: vram-bench)"
+    echo "  --hf-org NAME       HuggingFace org for uploads (default: loco-bench)"
     echo "  --llama-cpp PATH    Path to llama.cpp directory"
     exit 1
 fi
@@ -140,7 +140,7 @@ mkdir -p "$MODELS_DIR"
 
 echo ""
 echo "========================================"
-echo "vram-bench: Convert & Quantize"
+echo "loco-bench: Convert & Quantize"
 echo "========================================"
 echo "Model:  $MODEL_ID"
 echo "Name:   $MODEL_NAME"
