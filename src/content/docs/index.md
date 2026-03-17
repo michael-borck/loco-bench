@@ -42,7 +42,7 @@ Composite score averages across MMLU, HellaSwag, GSM8K, TruthfulQA, and ARC-Chal
 
 Most published benchmarks compare models under ideal conditions -- full precision, datacenter GPUs. Nobody systematically compares everything that fits within a given VRAM budget on consumer hardware. LocoBench fills that gap.
 
-The organising principle is the hardware constraint. Models are grouped by VRAM tier (4GB, 6GB, 8GB, 12GB, 24GB), and within each tier, every model that fits -- whether full-precision or quantized -- competes on quality, speed, and efficiency.
+The organising principle is the hardware constraint. Models are grouped by VRAM tier (2 GB, 3 GB, 4 GB, 6 GB, 8 GB, 12 GB, 16 GB, plus pooled multi-GPU tiers), and within each tier, every model that fits -- whether full-precision or quantized -- competes on quality, speed, and efficiency. Colmena covers the RTX-era tiers, Tortuga covers pre-RTX, and Hormiga validates the SFF floor.
 
 The data is useful for anyone choosing a model for local deployment, and particularly for projects like [LocoLLM](https://locollm.org) that build on top of small models for consumer hardware.
 
