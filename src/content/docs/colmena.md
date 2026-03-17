@@ -1,8 +1,8 @@
 ---
-title: "Colmena: Benchmark Reference Machine"
+title: "Benchmark Hardware"
 ---
 
-Colmena is the dedicated hardware platform used for all loco-bench benchmarks. Understanding its specifications is essential for interpreting results and extrapolating to your own hardware.
+LocoBench runs across two WEIHO 8-GPU chassis plus a standalone reference node. Colmena covers RTX-era tiers (8 GB+), Tortuga covers pre-RTX tiers (2-12 GB), and Hormiga validates SFF deployments. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
 
 ## System Specifications
 
@@ -19,24 +19,45 @@ Colmena is the dedicated hardware platform used for all loco-bench benchmarks. U
 | **GPU Slots** | 8 native PCIe slots (no risers needed) |
 | **Form Factor** | Enclosed chassis, not open frame |
 
-## GPU Lineup
+## Colmena GPU Lineup
+
+RTX-era cards with Tensor Cores, plus the Tesla P100 for the 16 GB tier.
 
 | VRAM Tier | GPU | Bandwidth | Architecture | Tensor Cores | Role |
 |---|---|---|---|---|---|
-| 4GB | GTX 1050 Ti | 112 GB/s | Pascal | No | Floor of 4GB tier |
-| 6GB | GTX 1060 6GB | 192 GB/s | Pascal | No | Floor of 6GB tier (pending acquisition) |
-| 8GB | RTX 2060 Super | 448 GB/s | Turing | Yes | Floor of 8GB tier |
-| 12GB | RTX 3060 AORUS Elite | 360 GB/s | Ampere | Yes | Floor of 12GB tier |
-| 24GB | RTX 3090 | 936 GB/s | Ampere | Yes | Reference ceiling (reserved, work budget) |
-| -- | 3 slots reserved | -- | -- | -- | Future expansion |
+| 8 GB | RTX 2060 Super x3 | 448 GB/s | Turing | Yes | Floor of 8 GB tier; multi-GPU pooling |
+| 12 GB | RTX 3060 | 360 GB/s | Ampere | Yes | Floor of 12 GB tier |
+| 16 GB | Tesla P100 | 732 GB/s | Pascal | No | 16 GB tier; HBM2 bandwidth reference |
+| 16 GB | RTX 4060 Ti | 288 GB/s | Ada Lovelace | Yes | Floor of 16 GB tier (planned) |
+| 24 GB | RTX 3090 | 936 GB/s | Ampere | Yes | Reference ceiling (planned) |
+
+## Tortuga GPU Lineup
+
+Pre-RTX cards without Tensor Cores. Powered on for benchmark runs only.
+
+| VRAM Tier | GPU | Bandwidth | Architecture | Tensor Cores | Role |
+|---|---|---|---|---|---|
+| 2 GB | GTX 950 | 105 GB/s | Maxwell | No | Absolute floor |
+| 4 GB | GTX 960 | 112 GB/s | Maxwell | No | Maxwell 4 GB tier |
+| 4 GB | GTX 1050 Ti | 112 GB/s | Pascal | No | Pascal 4 GB tier; cross-ref with Hormiga |
+| 3 GB | GTX 1060 3 GB | 192 GB/s | Pascal | No | Unusual tier between 2 GB and 4 GB |
+| 6 GB | GTX 1060 6 GB | 192 GB/s | Pascal | No | Floor of 6 GB tier; multi-GPU pooling |
+| 6 GB | GTX 980 Ti | 336 GB/s | Maxwell | No | Legacy high-end; bandwidth outlier |
+| 12 GB | GTX Titan X | 336 GB/s | Maxwell | No | Maxwell 12 GB; counterpoint to RTX 3060 |
+
+## Hormiga
+
+| VRAM Tier | GPU | Bandwidth | Architecture | Tensor Cores | Role |
+|---|---|---|---|---|---|
+| 4 GB | GTX 1050 Ti LP | 112 GB/s | Pascal | No | SFF reference; minimum viable inference |
 
 ## Philosophy: Deliberately Constrained
 
-Colmena is a deliberately constrained machine. The i3-3220 CPU, 8GB RAM ceiling, and modest storage exist by design, not accident.
+Both chassis are deliberately constrained machines. Colmena's i3-3220 CPU, 8 GB RAM ceiling, and modest storage exist by design, not accident. Tortuga is similar.
 
-The CPU's job is to boot the OS and manage the PCIe bus. The GPUs do the work. Over-speccing the host system would make Colmena a *worse* research instrument -- loco-bench benchmarks GPU capability on modest hardware, which is what most users actually have.
+The CPU's job is to boot the OS and manage the PCIe bus. The GPUs do the work. Over-speccing the host system would make the benchmarks less representative -- LocoBench measures GPU capability on modest hardware, which is what most users actually have.
 
-The RAM constraint means sequential rather than fully parallel benchmarking. Results are identical -- same hardware, same models -- the runs just don't happen simultaneously. For CloudCore inference serving, one or two active instances at a time is realistic for student load anyway.
+The RAM constraint means sequential rather than fully parallel benchmarking. Results are identical -- same hardware, same models -- the runs just don't happen simultaneously.
 
 ## Why Nvidia Only?
 
@@ -48,9 +69,9 @@ Apple Silicon is the exception, and Poco covers that path via Metal and MLX. If 
 
 What matters for replication is capability tier, not specific parts. Match the VRAM range and CUDA support, source whatever is available locally at the time.
 
-## Colmena as Reference Baseline
+## Reference Baselines
 
-Colmena generates the controlled, repeatable reference results. Community members running the same loco-bench suite on their own hardware extend coverage across GPUs Colmena will never have. See the [Community Contributions](guide#community-contributions) section in the benchmarking guide for how to submit results.
+Colmena and Tortuga together generate the controlled, repeatable reference results -- RTX-era tiers from Colmena, pre-RTX tiers from Tortuga, SFF validation from Hormiga. Community members running the same LocoBench suite on their own hardware extend coverage across GPUs the lab will never have. See the [Community Contributions](guide#community-contributions) section in the benchmarking guide for how to submit results.
 
 ## Benchmark Philosophy: Floor of Tier
 

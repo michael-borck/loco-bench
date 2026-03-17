@@ -34,7 +34,7 @@ export default defineConfig({
         {
           label: 'Hardware',
           items: [
-            { label: 'Colmena', slug: 'colmena' },
+            { label: 'Benchmark Hardware', slug: 'colmena' },
             { label: 'VRAM Tiers', slug: 'tiers' },
           ],
         },
