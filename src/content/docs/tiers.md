@@ -190,7 +190,7 @@ These tiers pool VRAM across matched cards via llama.cpp `--tensor-split`. Each 
 | 12 GB (pooled) | 2× GTX 1060 6 GB | ~10 GB | 192 GB/s each | GTX Titan X 12 GB (336 GB/s) |
 | 18 GB (pooled) | 3× GTX 1060 6 GB | ~16 GB | 192 GB/s each | Tesla P100 16 GB (732 GB/s) |
 
-*Note: GTX 1060 6 GB three-card configuration requires sourcing additional matched cards (~$50-80 AUD each secondhand).*
+*Tortuga has three GTX 1060 6 GB cards. All pooled configurations are available without additional acquisition.*
 
 **Why this matters:** The RTX 2060 Super's 448 GB/s memory bandwidth exceeds the RTX 3060 (360 GB/s), RTX 4060 (272 GB/s), and RTX 4060 Ti (288 GB/s). Token generation is bandwidth-bound, so pooled 2060 Supers may outperform newer single cards at the same total VRAM -- despite the PCIe splitting overhead.
 

@@ -41,7 +41,7 @@ Pre-RTX cards without Tensor Cores. Powered on for benchmark runs only.
 | 4 GB | GTX 960 | 112 GB/s | Maxwell | No | Maxwell 4 GB tier |
 | 4 GB | GTX 1050 Ti | 112 GB/s | Pascal | No | Pascal 4 GB tier; cross-ref with Hormiga |
 | 3 GB | GTX 1060 3 GB | 192 GB/s | Pascal | No | Unusual tier between 2 GB and 4 GB |
-| 6 GB | GTX 1060 6 GB | 192 GB/s | Pascal | No | Floor of 6 GB tier; multi-GPU pooling |
+| 6 GB | GTX 1060 6 GB x3 | 192 GB/s | Pascal | No | Floor of 6 GB tier; multi-GPU pooling (12/18 GB) |
 | 6 GB | GTX 980 Ti | 336 GB/s | Maxwell | No | Legacy high-end; bandwidth outlier |
 | 12 GB | GTX Titan X | 336 GB/s | Maxwell | No | Maxwell 12 GB; counterpoint to RTX 3060 |
 
