@@ -2,7 +2,7 @@
 title: "Benchmark Hardware"
 ---
 
-LocoBench runs across two WEIHO 8-GPU chassis plus a standalone reference node. Colmena covers RTX-era tiers (8 GB+), Tortuga covers pre-RTX tiers (2-12 GB), and Hormiga validates SFF deployments. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
+LocoBench runs across Tortuga (pre-RTX legacy tiers) and Hormiga (SFF reference node). Colmena's primary role has shifted to LocoConvoy multi-GPU experiments and LocoLLM fine-tuning, though its GPU specifications are documented here for cross-reference. Mesa serves as the overflow and GPU onboarding platform. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
 
 ## System Specifications
 
@@ -21,15 +21,13 @@ LocoBench runs across two WEIHO 8-GPU chassis plus a standalone reference node. 
 
 ## Colmena GPU Lineup
 
-RTX-era cards with Tensor Cores, plus the Tesla P100 for the 16 GB tier.
+Two matched trios for multi-GPU experiments, plus the Tesla P100 for fine-tuning. Colmena's primary role is now LocoConvoy/LocoLLM, not benchmarking.
 
 | VRAM Tier | GPU | Bandwidth | Architecture | Tensor Cores | Role |
 |---|---|---|---|---|---|
-| 8 GB | RTX 2060 Super x3 | 448 GB/s | Turing | Yes | Floor of 8 GB tier; multi-GPU pooling |
-| 12 GB | RTX 3060 | 360 GB/s | Ampere | Yes | Floor of 12 GB tier |
-| 16 GB | Tesla P100 | 732 GB/s | Pascal | No | 16 GB tier; HBM2 bandwidth reference |
-| 16 GB | RTX 4060 Ti | 288 GB/s | Ada Lovelace | Yes | Floor of 16 GB tier (planned) |
-| 24 GB | RTX 3090 | 936 GB/s | Ampere | Yes | Reference ceiling (planned) |
+| 6 GB | GTX 1060 6 GB x3 | 192 GB/s | Pascal | No | Multi-GPU pooling (18 GB); pre-RTX scaling baseline |
+| 8 GB | RTX 2060 Super x3 | 448 GB/s | Turing | Yes | Multi-GPU pooling (24 GB); RTX-era scaling testbed |
+| 16 GB | Tesla P100 | 732 GB/s | Pascal | No | Fine-tuning; HBM2 bandwidth (arriving) |
 
 ## Tortuga GPU Lineup
 
@@ -41,7 +39,7 @@ Pre-RTX cards without Tensor Cores. Powered on for benchmark runs only.
 | 4 GB | GTX 960 | 112 GB/s | Maxwell | No | Maxwell 4 GB tier |
 | 4 GB | GTX 1050 Ti | 112 GB/s | Pascal | No | Pascal 4 GB tier; cross-ref with Hormiga |
 | 3 GB | GTX 1060 3 GB | 192 GB/s | Pascal | No | Unusual tier between 2 GB and 4 GB |
-| 6 GB | GTX 1060 6 GB x3 | 192 GB/s | Pascal | No | Floor of 6 GB tier; multi-GPU pooling (12/18 GB) |
+| 6 GB | GTX 1060 6 GB | 192 GB/s | Pascal | No | Floor of 6 GB tier |
 | 6 GB | GTX 980 Ti | 336 GB/s | Maxwell | No | Legacy high-end; bandwidth outlier |
 | 12 GB | GTX Titan X | 336 GB/s | Maxwell | No | Maxwell 12 GB; counterpoint to RTX 3060 |
 
