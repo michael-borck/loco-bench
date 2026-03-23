@@ -8,6 +8,7 @@ export default defineConfig({
     starlight({
       title: 'LocoBench',
       description: 'I have X GB of VRAM — what\'s the best model I can run?',
+      favicon: '/favicon.svg',
       social: [
         { icon: 'external', label: 'Home', href: 'https://locobench.org' },
         { icon: 'external', label: 'LocoLab', href: 'https://locolabo.org' },
