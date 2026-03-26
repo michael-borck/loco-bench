@@ -10,7 +10,7 @@ Most published benchmarks evaluate full-precision models on cloud hardware. Nobo
 
 We're running two distinct benchmarks that serve different purposes:
 
-**Benchmark A: "What's best for my VRAM budget?"** Within each VRAM tier (4GB, 6GB, 8GB, 12GB, 24GB), compare every model that fits -- whether full-precision or quantized -- on standard tasks. This answers which model+precision combination gives the most capability for a given hardware constraint.
+**Benchmark A: "What's best for my VRAM budget?"** Within each VRAM tier (4GB, 6GB, 8GB, 12GB, 16GB, 24GB, 32GB), compare every model that fits -- whether full-precision or quantized -- on standard tasks. This answers which model+precision combination gives the most capability for a given hardware constraint.
 
 **Benchmark B: "What's the real user experience?"** Run the top models per tier on actual target hardware and measure tokens/sec, time-to-first-token, and memory usage alongside quality. This connects quality numbers to deployment reality.
 

@@ -62,7 +62,7 @@ Composite score averages across MMLU, HellaSwag, GSM8K, TruthfulQA, and ARC-Chal
 
 Most published benchmarks compare models under ideal conditions — full precision, datacenter GPUs. Nobody systematically compares everything that fits within a given VRAM budget on consumer hardware. loco-bench fills that gap.
 
-The organising principle is the hardware constraint. Models are grouped by VRAM tier (4GB, 6GB, 8GB, 12GB, 24GB), and within each tier, every model that fits — whether full-precision or quantized — competes on quality, speed, and efficiency.
+The organising principle is the hardware constraint. Models are grouped by VRAM tier (4GB, 6GB, 8GB, 12GB, 16GB, 24GB, 32GB), and within each tier, every model that fits — whether full-precision or quantized — competes on quality, speed, and efficiency.
 
 The data is useful for anyone choosing a model for local deployment, and particularly for projects like [LocoLLM](https://github.com/michael-borck/loco-llm) that build on top of small models for consumer hardware.
 

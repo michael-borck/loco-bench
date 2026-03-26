@@ -10,7 +10,7 @@ A full-precision SmolLM2-1.7B and a Q4_K_M Qwen3-4B both fit in 4GB of VRAM. Whi
 
 ## How It Works
 
-Models are organised by **VRAM tier**, not by model family or parameter count. Each tier represents a class of consumer GPU:
+Models are organised by **VRAM tier**, not by model family or parameter count. Each tier represents a VRAM budget, covering both consumer and affordable server GPUs:
 
 | VRAM Tier | Benchmark GPU | What Competes |
 |---|---|---|
@@ -18,7 +18,9 @@ Models are organised by **VRAM tier**, not by model family or parameter count. E
 | 6GB | GTX 1060 6GB | BF16 models ≤3B, quantized models ≤7B |
 | 8GB | RTX 2060 Super | BF16 models ≤4B, quantized 7B models |
 | 12GB | RTX 3060 | BF16 models ≤7B, lightly quantized 7B+ |
-| 24GB | RTX 3090 | Reference ceiling |
+| 16GB | RTX 4060 Ti 16GB | BF16 models ≤7B, quantized 8-14B models |
+| 24GB | RTX 3090 | BF16 models ≤14B, quantized 14B+ models |
+| 32GB | Tesla V100 32GB | BF16 models ≤14B, lightly quantized 14B+ models |
 
 Within each tier, every model that fits competes on equal footing: quality, speed, and efficiency.
 
@@ -134,7 +136,11 @@ All benchmarks run on [Colmena](docs/colmena.md), a deliberately constrained 8-G
 | 6GB | GTX 1060 6GB | Floor of 6GB tier |
 | 8GB | RTX 2060 Super | Floor of 8GB tier |
 | 12GB | RTX 3060 | Floor of 12GB tier |
-| 24GB | RTX 3090 | Reference ceiling |
+| 16GB | RTX 4060 Ti 16GB | Floor of 16GB consumer tier |
+| 16GB | Tesla P100 | 16GB server tier (HBM2, no Tensor Cores) |
+| 16GB | Tesla V100 16GB | 16GB server tier (HBM2, Tensor Cores; home lab) |
+| 24GB | RTX 3090 | Consumer ceiling — outside affordable range, benchmarked for comparison |
+| 32GB | Tesla V100 32GB | Server tier (HBM2, Tensor Cores) |
 
 See the [Colmena spec sheet](docs/colmena.md) for full system details and benchmark philosophy.
 

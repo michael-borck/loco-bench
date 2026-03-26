@@ -151,12 +151,18 @@ Everything from lower tiers, plus:
 
 ---
 
-### 16GB Tier — Tesla P100
+### 16GB Tier
 
 **Usable VRAM:** ~15 GB
-**Benchmark GPU:** Tesla P100 16 GB HBM2 (732 GB/s) — Colmena
+**Benchmark GPUs:**
 
-The P100 is an unusual card in the lineup -- datacenter Pascal with HBM2 instead of GDDR. No Tensor Cores, but 732 GB/s memory bandwidth is faster than every consumer card in the lab except the RTX 3090. This makes it a compelling inference card for bandwidth-bound LLM workloads, not just a training card.
+| GPU | Bandwidth | Architecture | Tensor Cores | Location |
+|---|---|---|---|---|
+| RTX 4060 Ti 16 GB | 288 GB/s | Ada Lovelace | Yes | Colmena |
+| Tesla P100 16 GB HBM2 | 732 GB/s | Pascal | No | Colmena |
+| Tesla V100 16 GB HBM2 | 900 GB/s | Volta | Yes | Home lab |
+
+Three cards at the same VRAM, three different architectures. The RTX 4060 Ti is the consumer floor -- Ada Lovelace with Tensor Cores but GDDR6 bandwidth. The P100 is datacenter Pascal with no Tensor Cores but 2.5x the bandwidth via HBM2. The V100 16 GB splits the difference -- Volta with both Tensor Cores and HBM2 bandwidth that exceeds both other cards. This is the cleanest test in the lineup for isolating what actually drives inference speed: bandwidth, Tensor Cores, or architecture generation.
 
 | Model | Precision | File Size | VRAM Est. | Fits? |
 |---|---|---|---|---|
@@ -168,7 +174,50 @@ The P100 is an unusual card in the lineup -- datacenter Pascal with HBM2 instead
 | Qwen3-8B | Q8_0 | 8.5 GB | 10.7 GB | Yes |
 | Llama 3.1-13B | Q4_K_M | 7.9 GB | 10.0 GB | Yes |
 
-**Key comparison:** Q8_0 Llama 3.1-8B on the P100 (732 GB/s) vs the same model on an RTX 4060 Ti 16 GB (288 GB/s, planned). Same VRAM, same precision, 2.5x bandwidth difference. The P100 lacks Tensor Cores; the 4060 Ti has them. Which factor dominates for inference?
+**Key comparison:** Q8_0 Llama 3.1-8B across all three cards -- same model, same precision, same VRAM. The 4060 Ti (288 GB/s, Tensor Cores), the P100 (732 GB/s, no Tensor Cores), and the V100 (900 GB/s, Tensor Cores). Which factor dominates for inference?
+
+---
+
+### 24GB Tier — RTX 3090
+
+**Usable VRAM:** ~22 GB
+**Benchmark GPU:** RTX 3090 (936 GB/s) — Colmena
+
+The 3090 sits outside the affordable secondhand range for most LocoBench users. It is included not as a recommendation but as a **comparison ceiling** — the answer to "what am I missing out on?" For small models at Q4_K_M, the answer is often "less than you'd think." That's a valuable finding that validates the floor-tier approach.
+
+Everything from lower tiers, plus:
+
+| Model | Precision | File Size | VRAM Est. | Fits? |
+|---|---|---|---|---|
+| DeepSeek-R1-7B | BF16 | 14.0 GB | 17.3 GB | Yes |
+| Llama 3.1-8B | BF16 | 16.0 GB | 19.7 GB | Yes |
+| Qwen3-8B | BF16 | 16.0 GB | 19.7 GB | Yes |
+| Llama 3.1-13B | Q4_K_M | 7.9 GB | 10.0 GB | Yes |
+| Llama 3.1-13B | Q8_0 | 13.8 GB | 17.1 GB | Yes |
+
+**Key comparison:** BF16 Llama 3.1-8B on the 3090 (936 GB/s) vs Q8_0 on the P100 (732 GB/s) and the RTX 4060 Ti (288 GB/s). Same model, three cards, wildly different bandwidth. Does bandwidth dominate, or do Tensor Cores close the gap?
+
+---
+
+### 32GB Tier — Tesla V100 32GB
+
+**Usable VRAM:** ~30 GB
+**Benchmark GPU:** Tesla V100 32 GB HBM2 (900 GB/s) — Colmena
+
+The V100 is the second datacenter card in the lineup, alongside the P100. Volta architecture with Tensor Cores and HBM2 bandwidth that rivals the RTX 3090. Together with the P100, it rounds out the affordable end of the server GPU secondhand market — cards that institutions and hobbyists can realistically acquire.
+
+Everything from lower tiers, plus:
+
+| Model | Precision | File Size | VRAM Est. | Fits? |
+|---|---|---|---|---|
+| Llama 3.1-8B | BF16 | 16.0 GB | 19.7 GB | Yes (comfortable) |
+| Qwen3-8B | BF16 | 16.0 GB | 19.7 GB | Yes (comfortable) |
+| Llama 3.1-13B | BF16 | 26.0 GB | 31.7 GB | Tight |
+| Llama 3.1-13B | Q8_0 | 13.8 GB | 17.1 GB | Yes |
+| Llama 3.1-13B | Q5_K_M | 9.8 GB | 12.3 GB | Yes |
+| Mixtral 8x7B | Q4_K_M | 26.4 GB | 32.2 GB | Tight |
+
+**Key comparison:** The V100 32GB (900 GB/s, Tensor Cores) vs the RTX 3090 24GB (936 GB/s, Tensor Cores). Similar bandwidth, 8 GB more VRAM. The V100's extra headroom opens up BF16 models and higher-precision quantisations that the 3090 can't fit. But do GDDR6X and Ampere architecture advantages close the gap for models that fit in both?
 
 ---
 
@@ -224,5 +273,7 @@ Summary view — the maximum parameter count that comfortably fits at each preci
 | 8 GB | ≤3B | ≤4B | ≤7B | ≤7B+ |
 | 12 GB | ≤4B | ≤7B | ≤14B | ≤14B+ |
 | 16 GB | ≤7B | ≤8B | ≤14B+ | ≤14B+ |
+| 24 GB | ≤8B | ≤14B | ≤14B+ | ≤14B+ |
+| 32 GB | ≤14B | ≤14B+ | ≤14B+ | ≤14B+ |
 
 This is the decision matrix loco-bench produces data for. The question is always: **within your VRAM budget, which combination of model size and precision gives the best results?**

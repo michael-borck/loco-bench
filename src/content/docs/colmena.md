@@ -2,7 +2,7 @@
 title: "Benchmark Hardware"
 ---
 
-LocoBench runs across Tortuga (pre-RTX legacy tiers) and Hormiga (SFF reference node). Colmena's primary role has shifted to LocoConvoy multi-GPU experiments and LocoLLM fine-tuning, though its GPU specifications are documented here for cross-reference. Mesa serves as the overflow and GPU onboarding platform. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
+LocoBench runs across Tortuga (pre-RTX legacy tiers) and Hormiga (SFF reference node). Colmena's primary role has shifted to LocoConvoy multi-GPU experiments and LocoLLM fine-tuning, though its GPU specifications are documented here for cross-reference. Pulpo serves as the overflow and GPU onboarding platform. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
 
 ## System Specifications
 
@@ -21,13 +21,17 @@ LocoBench runs across Tortuga (pre-RTX legacy tiers) and Hormiga (SFF reference 
 
 ## Colmena GPU Lineup
 
-Two matched trios for multi-GPU experiments, plus the Tesla P100 for fine-tuning. Colmena's primary role is now LocoConvoy/LocoLLM, not benchmarking.
+Two matched trios for multi-GPU experiments, plus datacenter and consumer cards spanning the 16-32 GB range. Colmena's primary role is now LocoConvoy/LocoLLM, not benchmarking.
 
 | VRAM Tier | GPU | Bandwidth | Architecture | Tensor Cores | Role |
 |---|---|---|---|---|---|
 | 6 GB | GTX 1060 6 GB x3 | 192 GB/s | Pascal | No | Multi-GPU pooling (18 GB); pre-RTX scaling baseline |
 | 8 GB | RTX 2060 Super x3 | 448 GB/s | Turing | Yes | Multi-GPU pooling (24 GB); RTX-era scaling testbed |
-| 16 GB | Tesla P100 | 732 GB/s | Pascal | No | Fine-tuning; HBM2 bandwidth (arriving) |
+| 16 GB | RTX 4060 Ti 16 GB | 288 GB/s | Ada Lovelace | Yes | Floor of 16 GB consumer tier |
+| 16 GB | Tesla P100 | 732 GB/s | Pascal | No | 16 GB server tier; adapter training; HBM2 bandwidth |
+| 16 GB | Tesla V100 16 GB | 900 GB/s | Volta | Yes | 16 GB server tier; HBM2 + Tensor Cores (home lab) |
+| 24 GB | RTX 3090 | 936 GB/s | Ampere | Yes | Consumer ceiling — comparison benchmark |
+| 32 GB | Tesla V100 32 GB | 900 GB/s | Volta | Yes | 32 GB server tier; HBM2 bandwidth |
 
 ## Tortuga GPU Lineup
 
@@ -81,11 +85,15 @@ Community submissions extend each tier upward. The bandwidth delta within each t
 
 ### Why the RTX 3090?
 
-The 3090 sits in an awkward market position -- too old for enthusiasts, too expensive for budget builders. But for loco-bench it serves as the **reference ceiling** for consumer secondhand hardware:
+The 3090 sits outside the affordable range for most LocoBench users. It is included not as a recommendation but as a **comparison ceiling** -- the answer to "what am I missing out on by staying in the affordable tiers?"
 
-- 24GB VRAM is the consumer ceiling for secondhand GPUs
+- 24 GB VRAM is the consumer ceiling for secondhand GPUs
 - Validates whether floor-tier results scale predictably upward
-- 936 GB/s bandwidth provides genuinely interesting comparative data
-- Most loco-bench users have 8GB cards or less -- the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
+- 936 GB/s bandwidth provides genuinely interesting comparative data against the affordable cards
+- Most LocoBench users have 8 GB cards or less -- the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
 
-The 3090 is framed as a research instrument, not an aspirational purchase. Reserved via work research budget with a patient acquisition strategy.
+### Why the Server GPUs?
+
+The Tesla P100 (16 GB), V100 16 GB, and V100 32 GB round out the affordable end of the datacenter GPU secondhand market. These are cards that institutions and hobbyists can realistically acquire -- HBM2 bandwidth that rivals or exceeds consumer cards, at prices that make them genuinely accessible. They lack display outputs and require adequate cooling, but for headless inference servers they are compelling.
+
+The server GPUs test a different question than the consumer cards: **does HBM2 bandwidth compensate for older architecture?** The P100 has no Tensor Cores but 732 GB/s bandwidth -- faster than every consumer card below the 3090. The V100s add Tensor Cores and 900 GB/s bandwidth. At the 16 GB tier, three cards with the same VRAM but wildly different architectures (Ada Lovelace, Pascal, Volta) make the cleanest test in the lineup for isolating what actually drives inference speed.

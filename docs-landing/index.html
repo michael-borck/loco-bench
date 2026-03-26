@@ -170,10 +170,10 @@
   </nav>
 
   <section class="hero">
-    <div class="hero-badge">Benchmarking &middot; Consumer GPUs &middot; Open Data</div>
+    <div class="hero-badge">Benchmarking &middot; Affordable GPUs &middot; Open Data</div>
     <h1><span class="highlight">Loco</span>Bench</h1>
     <p class="tagline">
-      I have X GB of VRAM -- what's the best model I can run? LocoBench benchmarks LLM inference across every consumer GPU VRAM tier, from 2 GB to 24 GB. The floor, not the ceiling.
+      I have X GB of VRAM -- what's the best model I can run? LocoBench benchmarks LLM inference across every GPU VRAM tier, from 2 GB to 32 GB. Consumer cards, affordable server GPUs, and everything in between.
     </p>
     <div class="hero-actions">
       <a href="/docs/" class="btn btn-primary">See the Results</a>
@@ -223,13 +223,28 @@
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">16 GB</div>
+        <div class="tier-gpu">RTX 4060 Ti 16GB</div>
+        <div class="tier-desc">288 GB/s &middot; Ada Lovelace</div>
+      </div>
+      <div class="tier-card fade-up">
+        <div class="tier-vram">16 GB</div>
         <div class="tier-gpu">Tesla P100</div>
         <div class="tier-desc">732 GB/s &middot; Pascal HBM2</div>
       </div>
       <div class="tier-card fade-up">
+        <div class="tier-vram">16 GB</div>
+        <div class="tier-gpu">Tesla V100 16GB</div>
+        <div class="tier-desc">900 GB/s &middot; Volta HBM2</div>
+      </div>
+      <div class="tier-card fade-up">
         <div class="tier-vram">24 GB</div>
         <div class="tier-gpu">RTX 3090</div>
-        <div class="tier-desc">936 GB/s &middot; Reference ceiling</div>
+        <div class="tier-desc">936 GB/s &middot; Consumer ceiling</div>
+      </div>
+      <div class="tier-card fade-up">
+        <div class="tier-vram">32 GB</div>
+        <div class="tier-gpu">Tesla V100 32GB</div>
+        <div class="tier-desc">900 GB/s &middot; Volta HBM2</div>
       </div>
     </div>
   </section>

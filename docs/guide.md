@@ -8,7 +8,7 @@ Most published benchmarks evaluate full-precision models on cloud hardware. Nobo
 
 We're running two distinct benchmarks that serve different purposes:
 
-**Benchmark A: "What's best for my VRAM budget?"** Within each VRAM tier (4GB, 6GB, 8GB, 12GB, 24GB), compare every model that fits — whether full-precision or quantized — on standard tasks. This answers which model+precision combination gives the most capability for a given hardware constraint.
+**Benchmark A: "What's best for my VRAM budget?"** Within each VRAM tier (4GB, 6GB, 8GB, 12GB, 16GB, 24GB, 32GB), compare every model that fits — whether full-precision or quantized — on standard tasks. This answers which model+precision combination gives the most capability for a given hardware constraint.
 
 **Benchmark B: "What's the real user experience?"** Run the top models per tier on actual target hardware and measure tokens/sec, time-to-first-token, and memory usage alongside quality. This connects quality numbers to deployment reality.
 
@@ -168,7 +168,11 @@ Within each tier, the model set includes both **full-precision small models** (e
 | 6GB | GTX 1060 6GB | 192 GB/s | Floor of 6GB tier |
 | 8GB | RTX 2060 Super | 448 GB/s | Floor of 8GB Turing tier (all 8GB Turing cards share ~448-496 GB/s) |
 | 12GB | RTX 3060 | 360 GB/s | Floor of 12GB tier |
-| 24GB | RTX 3090 | 936 GB/s | Reference ceiling (see below) |
+| 16GB | RTX 4060 Ti 16GB | 288 GB/s | Floor of 16GB consumer tier |
+| 16GB | Tesla P100 | 732 GB/s | 16GB server tier (HBM2, no Tensor Cores) |
+| 16GB | Tesla V100 16GB | 900 GB/s | 16GB server tier (HBM2, Tensor Cores; home lab) |
+| 24GB | RTX 3090 | 936 GB/s | Consumer ceiling — comparison benchmark |
+| 32GB | Tesla V100 32GB | 900 GB/s | 32GB server tier (HBM2, Tensor Cores) |
 
 Each card answers two questions simultaneously:
 
@@ -187,18 +191,18 @@ Bandwidth deltas between cards within a tier are documented in `nvidia-gpu-refer
 
 ### The RTX 3090: Reference Ceiling
 
-The RTX 3090 (24GB, 936 GB/s) doesn't fit the floor-of-tier pattern. It's not a card most loco-bench users will have — it sits in an awkward middle ground where it's too expensive for the "accessible hardware" narrative but too old for the "serious AI workstation" crowd.
-
-For loco-bench it serves a different role: the **reference ceiling** for consumer secondhand hardware.
+The RTX 3090 (24GB, 936 GB/s) sits outside the affordable range for most LocoBench users. It is included not as a recommendation but as a **comparison ceiling** — the answer to "what am I missing out on by staying in the affordable tiers?"
 
 - 24GB VRAM is the consumer ceiling for secondhand GPUs
-- It answers "what does the best affordable card unlock?"
 - It validates whether the floor-tier results scale predictably upward
 - The bandwidth story at 936 GB/s provides genuinely interesting comparative data against the floor cards
+- Most LocoBench users have 8GB cards or less — the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
 
-The framing is not "here's what you should buy" but **"here's the ceiling of what's possible on consumer secondhand hardware."** The 3090 becomes the reference point everything else is measured against, not a recommendation.
+### The Server GPUs: P100 and V100
 
-Most loco-bench users have 8GB cards or less. The 3090 result tells them what they're leaving on the table — and in many cases the answer will be "not as much as you'd think for small models." That's a valuable finding that validates the whole project philosophy: if the gap between a $60 floor card and a $600 ceiling card is modest for 3-4B models at Q4_K_M, it proves these models genuinely run well on budget hardware.
+The Tesla P100 (16 GB), V100 16 GB, and V100 32 GB round out the affordable end of the datacenter GPU secondhand market — cards that institutions and hobbyists can realistically acquire. They lack display outputs and require adequate cooling, but for headless inference servers they offer HBM2 bandwidth that rivals or exceeds consumer cards.
+
+The server GPUs test a different question: **does HBM2 bandwidth compensate for older architecture?** At the 16 GB tier, three cards with the same VRAM but wildly different architectures (Ada Lovelace, Pascal, Volta) make the cleanest test in the lineup for isolating what drives inference speed.
 
 ### Benchmarking vs Personal Use
 
