@@ -117,7 +117,10 @@
     }
     .tier-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
     .tier-vram { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem; }
-    .tier-gpu { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .tier-gpu { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.25rem; }
+    .tier-gpu-list { list-style: none; padding: 0; margin: 0; }
+    .tier-gpu-list li { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); line-height: 1.8; }
+    .tier-gpu-list li .gpu-name { color: var(--text-primary); }
     .tier-desc { font-size: 0.85rem; color: var(--text-secondary); }
 
     .highlight-section {
@@ -193,58 +196,59 @@
     <div class="tier-grid">
       <div class="tier-card fade-up">
         <div class="tier-vram">2 GB</div>
-        <div class="tier-gpu">GTX 950</div>
-        <div class="tier-desc">105 GB/s &middot; Maxwell</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">GTX 950</span> &middot; 105 GB/s</li>
+        </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">3 GB</div>
-        <div class="tier-gpu">GTX 1060 3GB</div>
-        <div class="tier-desc">192 GB/s &middot; Pascal</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">GTX 1060 3GB</span> &middot; 192 GB/s</li>
+        </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">4 GB</div>
-        <div class="tier-gpu">GTX 1050 Ti</div>
-        <div class="tier-desc">112 GB/s &middot; Pascal</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">GTX 1050 Ti</span> &middot; 112 GB/s</li>
+        </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">6 GB</div>
-        <div class="tier-gpu">GTX 1060</div>
-        <div class="tier-desc">192 GB/s &middot; Pascal</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">GTX 1060 6GB</span> &middot; 192 GB/s</li>
+        </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">8 GB</div>
-        <div class="tier-gpu">RTX 2060 Super</div>
-        <div class="tier-desc">448 GB/s &middot; Turing</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">RTX 2060 Super</span> &middot; 448 GB/s</li>
+        </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">12 GB</div>
-        <div class="tier-gpu">RTX 3060</div>
-        <div class="tier-desc">360 GB/s &middot; Ampere</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">RTX 3060</span> &middot; 360 GB/s</li>
+        </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">16 GB</div>
-        <div class="tier-gpu">RTX 4060 Ti 16GB</div>
-        <div class="tier-desc">288 GB/s &middot; Ada Lovelace</div>
-      </div>
-      <div class="tier-card fade-up">
-        <div class="tier-vram">16 GB</div>
-        <div class="tier-gpu">Tesla P100</div>
-        <div class="tier-desc">732 GB/s &middot; Pascal HBM2</div>
-      </div>
-      <div class="tier-card fade-up">
-        <div class="tier-vram">16 GB</div>
-        <div class="tier-gpu">Tesla V100 16GB</div>
-        <div class="tier-desc">900 GB/s &middot; Volta HBM2</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">RTX 4060 Ti</span> &middot; 288 GB/s</li>
+          <li><span class="gpu-name">Tesla P100</span> &middot; 732 GB/s</li>
+          <li><span class="gpu-name">Tesla V100</span> &middot; 900 GB/s</li>
+        </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">24 GB</div>
-        <div class="tier-gpu">RTX 3090</div>
-        <div class="tier-desc">936 GB/s &middot; Consumer ceiling</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">RTX 3090</span> &middot; 936 GB/s</li>
+        </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">32 GB</div>
-        <div class="tier-gpu">Tesla V100 32GB</div>
-        <div class="tier-desc">900 GB/s &middot; Volta HBM2</div>
+        <ul class="tier-gpu-list">
+          <li><span class="gpu-name">Tesla V100</span> &middot; 900 GB/s</li>
+        </ul>
       </div>
     </div>
   </section>
