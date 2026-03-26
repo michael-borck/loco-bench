@@ -121,6 +121,8 @@
     .tier-gpu-list { list-style: none; padding: 0; margin: 0; }
     .tier-gpu-list li { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); line-height: 1.8; }
     .tier-gpu-list li .gpu-name { color: var(--text-primary); }
+    .tier-gpu-list li.pooled { color: var(--text-muted); font-size: 0.75rem; }
+    .tier-gpu-list li.pooled .gpu-name { color: var(--text-secondary); }
     .tier-desc { font-size: 0.85rem; color: var(--text-secondary); }
 
     .highlight-section {
@@ -210,24 +212,30 @@
         <div class="tier-vram">4 GB</div>
         <ul class="tier-gpu-list">
           <li><span class="gpu-name">GTX 1050 Ti</span> &middot; 112 GB/s</li>
+          <li><span class="gpu-name">GTX 960</span> &middot; 112 GB/s</li>
         </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">6 GB</div>
         <ul class="tier-gpu-list">
           <li><span class="gpu-name">GTX 1060 6GB</span> &middot; 192 GB/s</li>
+          <li><span class="gpu-name">GTX 980 Ti</span> &middot; 336 GB/s</li>
         </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">8 GB</div>
         <ul class="tier-gpu-list">
           <li><span class="gpu-name">RTX 2060 Super</span> &middot; 448 GB/s</li>
+          <li><span class="gpu-name">GTX 1070</span> &middot; 256 GB/s</li>
+          <li><span class="gpu-name">RTX 3050</span> &middot; 224 GB/s</li>
         </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">12 GB</div>
         <ul class="tier-gpu-list">
           <li><span class="gpu-name">RTX 3060</span> &middot; 360 GB/s</li>
+          <li><span class="gpu-name">GTX Titan X</span> &middot; 336 GB/s</li>
+          <li class="pooled"><span class="gpu-name">2&times; GTX 1060</span> &middot; pooled</li>
         </ul>
       </div>
       <div class="tier-card fade-up">
@@ -236,12 +244,20 @@
           <li><span class="gpu-name">RTX 4060 Ti</span> &middot; 288 GB/s</li>
           <li><span class="gpu-name">Tesla P100</span> &middot; 732 GB/s</li>
           <li><span class="gpu-name">Tesla V100</span> &middot; 900 GB/s</li>
+          <li class="pooled"><span class="gpu-name">2&times; RTX 2060 Super</span> &middot; pooled</li>
+        </ul>
+      </div>
+      <div class="tier-card fade-up">
+        <div class="tier-vram">18 GB</div>
+        <ul class="tier-gpu-list">
+          <li class="pooled"><span class="gpu-name">3&times; GTX 1060</span> &middot; pooled</li>
         </ul>
       </div>
       <div class="tier-card fade-up">
         <div class="tier-vram">24 GB</div>
         <ul class="tier-gpu-list">
           <li><span class="gpu-name">RTX 3090</span> &middot; 936 GB/s</li>
+          <li class="pooled"><span class="gpu-name">3&times; RTX 2060 Super</span> &middot; pooled</li>
         </ul>
       </div>
       <div class="tier-card fade-up">
