@@ -108,6 +108,7 @@ loco-bench submit          # packages results for community submission
 | `scripts/benchmark_quality.py` | Run lm-evaluation-harness across GGUF models |
 | `scripts/benchmark_speed.py` | Run llama-bench for speed metrics |
 | `scripts/generate_chart_data.py` | Generate interactive chart data from results |
+| `scripts/gpu-onboard.sh` | Validate a new GPU before commissioning it into the fleet |
 
 ### Producing Your Own GGUFs
 
