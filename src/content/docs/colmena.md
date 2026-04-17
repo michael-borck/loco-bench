@@ -2,7 +2,7 @@
 title: "Benchmark Hardware"
 ---
 
-LocoBench runs across Colmena (RTX-era tiers), Tortuga (pre-RTX legacy tiers), and Hormiga (SFF reference node). Hidra hosts LocoConvoy multi-GPU experiments and GPU onboarding (open frame, full x16 PCIe) but is not a primary benchmark machine. Condor hosts the V100 32 GB for LocoLLM adapter training and contributes benchmark data at the 32 GB tier when training is idle. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
+LocoBench runs across four machines. Colmena covers the RTX-era consumer tiers. Tortuga covers the pre-RTX legacy tiers. Hormiga anchors the SFF reference floor. Hidra covers the server GPU tiers (Tesla V100 16 GB and P100 16 GB installed; M40 24 GB and P40 24 GB incoming) on an open-frame X99 workstation with full x16 PCIe, which also doubles as the LocoConvoy multi-GPU experiment platform and the GPU onboarding station. Condor hosts the V100 32 GB for LocoLLM adapter training and contributes benchmark data at the 32 GB tier when training is idle. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
 
 ## System Specifications
 
@@ -21,14 +21,24 @@ LocoBench runs across Colmena (RTX-era tiers), Tortuga (pre-RTX legacy tiers), a
 
 ## Colmena GPU Lineup
 
-Colmena is the RTX-era tier benchmarking platform. Two matched trios (3x GTX 1060 6 GB, 3x RTX 2060 Super 8 GB) give repeat-measurement discipline at their floor tiers; the 16 GB tier is represented by both the 4060 Ti (consumer floor, bandwidth-starved) and the P100 (server card, HBM2).
+Colmena is the RTX-era consumer tier benchmarking platform. Two matched trios (3x GTX 1060 6 GB, 3x RTX 2060 Super 8 GB) give repeat-measurement discipline at their floor tiers; the 16 GB consumer tier is represented by the 4060 Ti.
 
 | VRAM Tier | GPU | Bandwidth | Architecture | Tensor Cores | Role |
 |---|---|---|---|---|---|
 | 6 GB | GTX 1060 6 GB x3 | 192 GB/s | Pascal | No | 6 GB floor; bridges into Tortuga's pre-RTX coverage |
 | 8 GB | RTX 2060 Super x3 | 448 GB/s | Turing | Yes | 8 GB RTX-era floor; matched trio for variance discipline |
 | 16 GB | RTX 4060 Ti 16 GB | 288 GB/s | Ada Lovelace | Yes | Floor of 16 GB consumer tier |
+
+## Hidra GPU Lineup (Server Tiers)
+
+Hidra is the server GPU benchmarking platform. Open-frame X99 workstation with 4x PCIe x16 slots, which also hosts LocoConvoy multi-GPU experiments and GPU onboarding.
+
+| VRAM Tier | GPU | Bandwidth | Architecture | Tensor Cores | Role |
+|---|---|---|---|---|---|
 | 16 GB | Tesla P100 | 732 GB/s | Pascal | No | 16 GB server tier; HBM2 bandwidth at Pascal compute |
+| 16 GB | Tesla V100 16 GB | 900 GB/s | Volta | Yes | 16 GB server tier; HBM2 + first-gen Tensor Cores |
+| 24 GB | Tesla M40 24 GB | 288 GB/s | Maxwell | No | Server floor at 24 GB (CC 5.2, Ollama only). **Incoming** |
+| 24 GB | Tesla P40 | 346 GB/s | Pascal | No | 24 GB server tier (CC 6.1, full modern stack). **Incoming** |
 
 The 24 GB consumer tier (RTX 3090, 936 GB/s) lives on Puente, where it is the sole card for the LocoPuente PoC and LocoEnsayo chatbots. The 32 GB server tier (Tesla V100 32 GB, 900 GB/s, Volta, Tensor Cores) lives on Condor as the dedicated LocoLLM adapter-training card. Benchmark runs at these tiers happen on their host machines when their primary workload is idle.
 
@@ -93,8 +103,8 @@ The 3090 lives on Puente as the primary card for the LocoPuente PoC and LocoEnsa
 
 ### Why the Server GPUs?
 
-The Tesla P100 (16 GB, on Colmena) and V100 32 GB (on Condor) round out the accessible end of the datacenter GPU secondhand market. These are cards that institutions and hobbyists can realistically acquire -- HBM2 bandwidth that rivals or exceeds consumer cards, on hardware that turns up regularly as organisations refresh. They lack display outputs and require adequate cooling, but for headless inference servers they are compelling.
+The Tesla P100 (16 GB) and V100 16 GB (both on Hidra), plus the V100 32 GB (on Condor), round out the accessible end of the datacenter GPU secondhand market. These are cards that institutions and hobbyists can realistically acquire -- HBM2 bandwidth that rivals or exceeds consumer cards, on hardware that turns up regularly as organisations refresh. They lack display outputs and require adequate cooling, but for headless inference servers they are compelling. Incoming M40 24 GB and P40 24 GB will extend the server-tier coverage to 24 GB alongside the 16 GB pair.
 
-The server GPUs test a different question than the consumer cards: **does HBM2 bandwidth compensate for older architecture?** The P100 has no Tensor Cores but 732 GB/s bandwidth -- faster than every consumer card below the 3090. The V100s add Tensor Cores and 900 GB/s bandwidth. At the 16 GB tier, three cards with the same VRAM but wildly different architectures (Ada Lovelace, Pascal, Volta) make the cleanest test in the lineup for isolating what actually drives inference speed.
+The server GPUs test a different question than the consumer cards: **does HBM2 bandwidth compensate for older architecture?** The P100 has no Tensor Cores but 732 GB/s bandwidth -- faster than every consumer card below the 3090. The V100s add Tensor Cores and 900 GB/s bandwidth. At the 16 GB tier, three cards with the same VRAM but wildly different architectures (RTX 4060 Ti on Colmena -- Ada Lovelace; P100 and V100 16 GB on Hidra -- Pascal and Volta) make the cleanest test in the lineup for isolating what actually drives inference speed.
 
-**Tier expansion targets.** The server lineup has two gaps worth filling through Hidra onboarding: the Tesla M40 24 GB (Maxwell, Compute 5.2) and Tesla P40 (Pascal, Compute 6.1). These cards extend the 24 GB server tier downward and enable a clean same-VRAM, different-architecture comparison at 24 GB -- the counterpart to the 16 GB three-architecture test already in the fleet. The M40 also sits at the LocoBench Compute 5.0 floor, making it the oldest server card worth benchmarking. Hidra's dual-Xeon platform with 4x PCIe x16 slots and adequate airflow for passively cooled datacenter cards is the natural home for this rotation. See the Server GPUs section of `nvidia-gpu-reference.md` for the per-card rationale.
+**24 GB server tier expansion (incoming).** The Tesla M40 24 GB (Maxwell, Compute 5.2) and Tesla P40 (Pascal, Compute 6.1) are on their way and will extend Hidra's server coverage to 24 GB. Together they enable a clean same-VRAM, different-architecture comparison at 24 GB -- the counterpart to the 16 GB three-architecture test already in the fleet. The M40 also sits at the LocoBench Compute 5.0 floor, making it the oldest server card worth benchmarking. See the Server GPUs section of `nvidia-gpu-reference.md` for the per-card rationale.
