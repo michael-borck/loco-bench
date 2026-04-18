@@ -2,7 +2,7 @@
 title: "Benchmark Hardware"
 ---
 
-LocoBench runs across four machines. Colmena covers the RTX-era consumer tiers. Tortuga covers the pre-RTX legacy tiers. Hormiga anchors the SFF reference floor. Hidra covers the server GPU tiers (Tesla V100 16 GB and P100 16 GB installed; M40 24 GB and P40 24 GB incoming) on an open-frame X99 workstation with full x16 PCIe, which also doubles as the LocoConvoy multi-GPU experiment platform and the GPU onboarding station. Condor hosts the V100 32 GB for LocoLLM adapter training and contributes benchmark data at the 32 GB tier when training is idle. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
+LocoBench runs across four machines. Colmena covers the RTX-era consumer tiers. Tortuga covers the pre-RTX legacy tiers. Hormiga anchors the SFF reference floor. Hidra covers the server GPU tiers (Tesla V100 16 GB and P100 16 GB installed; M40 24 GB and P40 24 GB incoming) on an open-frame X99 workstation with full x16 PCIe, which also doubles as the LocoConvoy multi-GPU experiment platform and the GPU onboarding station. Búho hosts the V100 32 GB for LocoLLM adapter training and contributes benchmark data at the 32 GB tier when training is idle. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
 
 ## System Specifications
 
@@ -40,7 +40,7 @@ Hidra is the server GPU benchmarking platform. Open-frame X99 workstation with 4
 | 24 GB | Tesla M40 24 GB | 288 GB/s | Maxwell | No | Server floor at 24 GB (CC 5.2, Ollama only). **Incoming** |
 | 24 GB | Tesla P40 | 346 GB/s | Pascal | No | 24 GB server tier (CC 6.1, full modern stack). **Incoming** |
 
-The 24 GB consumer tier (RTX 3090, 936 GB/s) lives on Puente, where it is the sole card for the LocoPuente PoC and LocoEnsayo chatbots. The 32 GB server tier (Tesla V100 32 GB, 900 GB/s, Volta, Tensor Cores) lives on Condor as the dedicated LocoLLM adapter-training card. Benchmark runs at these tiers happen on their host machines when their primary workload is idle.
+The 24 GB consumer tier (RTX 3090, 936 GB/s) lives on Puente, where it is the sole card for the LocoPuente PoC and LocoEnsayo chatbots. The 32 GB server tier (Tesla V100 32 GB, 900 GB/s, Volta, Tensor Cores) lives on Búho as the dedicated LocoLLM adapter-training card. Benchmark runs at these tiers happen on their host machines when their primary workload is idle.
 
 ## Tortuga GPU Lineup
 
@@ -103,7 +103,7 @@ The 3090 lives on Puente as the primary card for the LocoPuente PoC and LocoEnsa
 
 ### Why the Server GPUs?
 
-The Tesla P100 (16 GB) and V100 16 GB (both on Hidra), plus the V100 32 GB (on Condor), round out the accessible end of the datacenter GPU secondhand market. These are cards that institutions and hobbyists can realistically acquire -- HBM2 bandwidth that rivals or exceeds consumer cards, on hardware that turns up regularly as organisations refresh. They lack display outputs and require adequate cooling, but for headless inference servers they are compelling. Incoming M40 24 GB and P40 24 GB will extend the server-tier coverage to 24 GB alongside the 16 GB pair.
+The Tesla P100 (16 GB) and V100 16 GB (both on Hidra), plus the V100 32 GB (on Búho), round out the accessible end of the datacenter GPU secondhand market. These are cards that institutions and hobbyists can realistically acquire -- HBM2 bandwidth that rivals or exceeds consumer cards, on hardware that turns up regularly as organisations refresh. They lack display outputs and require adequate cooling, but for headless inference servers they are compelling. Incoming M40 24 GB and P40 24 GB will extend the server-tier coverage to 24 GB alongside the 16 GB pair.
 
 The server GPUs test a different question than the consumer cards: **does HBM2 bandwidth compensate for older architecture?** The P100 has no Tensor Cores but 732 GB/s bandwidth -- faster than every consumer card below the 3090. The V100s add Tensor Cores and 900 GB/s bandwidth. At the 16 GB tier, three cards with the same VRAM but wildly different architectures (RTX 4060 Ti on Colmena -- Ada Lovelace; P100 and V100 16 GB on Hidra -- Pascal and Volta) make the cleanest test in the lineup for isolating what actually drives inference speed.
 
