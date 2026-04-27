@@ -1,0 +1,33 @@
+---
+title: LocoBench
+description: I have X GB of VRAM — what's the best model I can run?
+template: splash
+hero:
+  tagline: I have X GB of VRAM — what's the best model I can run?
+  actions:
+    - text: View Results
+      link: /docs/quality/
+      icon: right-arrow
+      variant: primary
+    - text: GPU Inventory
+      link: /docs/gpu-inventory/
+      icon: external
+      variant: secondary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+  <Card title="VRAM-tier benchmarking" icon="bars">
+    Models are grouped by what actually fits your card — not by parameter count. Full-precision small models compete head-to-head against quantised larger ones within each tier.
+  </Card>
+  <Card title="Consumer hardware only" icon="laptop">
+    No A100s. No datacenter setups. Every result comes from the GPUs on the bench — secondhand cards, real PCIe slots, honest baselines.
+  </Card>
+  <Card title="Quality, speed, and efficiency" icon="approve-check">
+    Three lenses on every card and model: composite quality score, generation speed, and Pareto efficiency (bang per bit). Not just which model wins — which is worth the file size.
+  </Card>
+  <Card title="Floor representatives" icon="down-caret">
+    Each tier uses the worst card that fits — not the best. Results are honest lower bounds. If it works here, it works on anything better.
+  </Card>
+</CardGrid>
