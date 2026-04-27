@@ -9,6 +9,11 @@ export default defineConfig({
       title: 'LocoBench',
       description: 'I have X GB of VRAM — what\'s the best model I can run?',
       favicon: '/favicon.svg',
+      logo: {
+        alt: 'LocoBench',
+        src: './src/assets/bench.svg',
+        replacesTitle: false,
+      },
       social: [
         { icon: 'external', label: 'Home', href: 'https://locobench.org' },
         { icon: 'external', label: 'LocoLab', href: 'https://locolabo.org' },
