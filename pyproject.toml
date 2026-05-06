@@ -29,9 +29,11 @@ docs = [
 moe = [
     "requests>=2.31",
     "PyYAML>=6.0",
-    "pytest>=7.4",
     "huggingface-hub>=0.20",
     "lm-eval[openai]",
+]
+dev = [
+    "pytest>=7.4",
 ]
 
 [build-system]
