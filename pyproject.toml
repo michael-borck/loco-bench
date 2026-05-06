@@ -26,7 +26,14 @@ eval = [
 docs = [
     "mkdocs-material",
 ]
+moe = [
+    "requests>=2.31",
+    "PyYAML>=6.0",
+    "pytest>=7.4",
+    "huggingface-hub>=0.20",
+    "lm-eval[openai]",
+]
 
 [build-system]
 requires = ["setuptools>=68.0"]
-build-backend = "setuptools.backends._legacy:_Backend"
+build-backend = "setuptools.build_meta"
