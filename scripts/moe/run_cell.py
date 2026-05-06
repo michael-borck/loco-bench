@@ -21,6 +21,7 @@ from scripts.moe.config import (
     load_cell_config,
     load_models,
     load_presets,
+    preset_to_llama_cpp_args,
     resolve_preset,
 )
 from scripts.moe.hardware_fingerprint import fingerprint_gpu, fingerprint_host
@@ -147,11 +148,19 @@ def run_cell(
             write_niah(paths.niah_json, niah_summary)
 
     # Speed via llama-bench (separate process, no server)
+    # llama-bench needs the same MoE flags the server got, minus ngl/ctx_size which are explicit
+    bench_extra_flags = {
+        k: v for k, v in inputs.effective_preset.flags.items()
+        if k not in ("ngl", "ctx_size")
+    }
+    bench_preset = Preset(name=f"{inputs.cell.preset}-llama-bench", flags=bench_extra_flags)
+    bench_extra_args = preset_to_llama_cpp_args(bench_preset)
     speed_samples = run_llama_bench(
         gguf_path=gguf_path,
         ngl=int(inputs.effective_preset.flags.get("ngl", 99)),
         ctx_sizes=[1024, 8192, min(65536, ctx)],
         output_json_path=paths.dir / "llama_bench_raw.json",
+        extra_args=bench_extra_args,
     )
     paths.llama_bench_json.write_text(json.dumps(samples_to_summary(speed_samples), indent=2))
 

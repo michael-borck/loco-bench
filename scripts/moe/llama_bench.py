@@ -24,6 +24,7 @@ def build_llama_bench_command(
     gen_tokens: int,
     repetitions: int,
     threads: int,
+    extra_args: list[str] | None = None,
 ) -> list[str]:
     """Compose llama-bench CLI."""
     cmd: list[str] = [
@@ -36,6 +37,8 @@ def build_llama_bench_command(
         "-t", str(threads),
         "-o", "json",
     ]
+    if extra_args:
+        cmd.extend(extra_args)
     return cmd
 
 
@@ -64,11 +67,13 @@ def run_llama_bench(
     repetitions: int = 3,
     threads: int = 4,
     output_json_path: Path | None = None,
+    extra_args: list[str] | None = None,
 ) -> list[SpeedSample]:
     """Run llama-bench and return parsed samples. Optionally writes raw JSON."""
     cmd = build_llama_bench_command(
         gguf_path=gguf_path, ngl=ngl, ctx_sizes=ctx_sizes,
         gen_tokens=gen_tokens, repetitions=repetitions, threads=threads,
+        extra_args=extra_args,
     )
     print(f"[llama-bench] running: {' '.join(cmd)}")
     result = subprocess.run(cmd, capture_output=True, text=True, check=True)

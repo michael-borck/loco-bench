@@ -11,7 +11,9 @@ from typing import Any
 import yaml
 
 
-# Per-tier `n_cpu_moe` defaults — tuned per VRAM budget. Confirmed empirically in calibration tasks.
+# Per-tier `n_cpu_moe` defaults. The 6gb and 6gb-256k values come from the article (Qwen3-30B-A3B
+# on GTX 1060 6GB). The 2gb, 4gb, 8gb-32gbram, and 8gb-64gbram values are PROVISIONAL — they will
+# be refined empirically during the calibration task (Plan Task 18 smoke test and Phase 7 runs).
 N_CPU_MOE_PER_TIER: dict[str, int] = {
     "2gb": 99,            # near-all on CPU; only attention head + small embeddings on tiny VRAM
     "4gb": 40,

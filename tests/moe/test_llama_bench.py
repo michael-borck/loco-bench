@@ -36,6 +36,20 @@ def test_build_command_includes_context_sizes() -> None:
     assert "-o" in cmd and "json" in cmd
 
 
+def test_extra_args_appended() -> None:
+    cmd = build_llama_bench_command(
+        gguf_path=Path("/m.gguf"),
+        ngl=99,
+        ctx_sizes=[1024],
+        gen_tokens=128,
+        repetitions=3,
+        threads=4,
+        extra_args=["--n-cpu-moe", "35", "--no-mmap"],
+    )
+    assert "--n-cpu-moe" in cmd and "35" in cmd
+    assert "--no-mmap" in cmd
+
+
 def test_parse_llama_bench_json_extracts_pp_and_tg() -> None:
     raw = [
         {"test": "pp1024", "n_prompt": 1024, "avg_ts": 250.5, "stddev_ts": 5.2},
