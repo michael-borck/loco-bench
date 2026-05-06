@@ -53,3 +53,33 @@ def preset_to_llama_cpp_args(preset: Preset) -> list[str]:
         else:
             args.extend([cli, str(value)])
     return args
+
+
+@dataclass
+class ModelEntry:
+    """Registry entry for one GGUF model."""
+    name: str
+    hf_repo: str
+    filename: str
+    sha256: str
+    tokenizer: str
+    params_total_b: float
+    params_active_b: float
+
+
+def load_models(path: Path) -> dict[str, ModelEntry]:
+    """Parse a models YAML file. Returns name -> ModelEntry."""
+    raw = yaml.safe_load(path.read_text())
+    models_raw = raw.get("models", {})
+    return {
+        name: ModelEntry(
+            name=name,
+            hf_repo=body["hf_repo"],
+            filename=body["filename"],
+            sha256=body["sha256"],
+            tokenizer=body["tokenizer"],
+            params_total_b=float(body["params_total_b"]),
+            params_active_b=float(body["params_active_b"]),
+        )
+        for name, body in models_raw.items()
+    }

@@ -1,0 +1,71 @@
+# Model registry for the MoE-on-a-budget study.
+# SHA-256 values are populated in Task 17 (download + verify) and committed
+# alongside the downloaded models. The string "TBD-FILL-IN-TASK-17" is a
+# load-bearing sentinel — Task 17 fails fast if any remain.
+
+models:
+  # MoE candidates
+  olmoe-1b-7b:
+    hf_repo: allenai/OLMoE-1B-7B-0924-Instruct-GGUF
+    filename: olmoe-1b-7b-0924-instruct-q4_k_m.gguf
+    sha256: TBD-FILL-IN-TASK-17
+    tokenizer: allenai/OLMoE-1B-7B-0924-Instruct
+    params_total_b: 6.9
+    params_active_b: 1.0
+
+  qwen1.5-moe-a2.7b:
+    hf_repo: Qwen/Qwen1.5-MoE-A2.7B-Chat-GGUF
+    filename: qwen1.5-moe-a2.7b-chat-q4_k_m.gguf
+    sha256: TBD-FILL-IN-TASK-17
+    tokenizer: Qwen/Qwen1.5-MoE-A2.7B-Chat
+    params_total_b: 14.3
+    params_active_b: 2.7
+
+  deepseek-v2-lite:
+    hf_repo: bartowski/DeepSeek-V2-Lite-Chat-GGUF
+    filename: DeepSeek-V2-Lite-Chat-Q4_K_M.gguf
+    sha256: TBD-FILL-IN-TASK-17
+    tokenizer: deepseek-ai/DeepSeek-V2-Lite-Chat
+    params_total_b: 15.7
+    params_active_b: 2.4
+
+  qwen3-30b-a3b:
+    hf_repo: Qwen/Qwen3-30B-A3B-GGUF
+    filename: qwen3-30b-a3b-q4_k_m.gguf
+    sha256: TBD-FILL-IN-TASK-17
+    tokenizer: Qwen/Qwen3-30B-A3B
+    params_total_b: 30.0
+    params_active_b: 3.0
+
+  qwen3-next-80b-a3b:
+    hf_repo: Qwen/Qwen3-Next-80B-A3B-Instruct-GGUF
+    filename: qwen3-next-80b-a3b-instruct-q4_k_m.gguf
+    sha256: TBD-FILL-IN-TASK-17
+    tokenizer: Qwen/Qwen3-Next-80B-A3B-Instruct
+    params_total_b: 80.0
+    params_active_b: 3.0
+
+  # Dense baselines
+  tinyllama-1.1b:
+    hf_repo: TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
+    filename: tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+    sha256: TBD-FILL-IN-TASK-17
+    tokenizer: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+    params_total_b: 1.1
+    params_active_b: 1.1
+
+  qwen3-4b-instruct:
+    hf_repo: Qwen/Qwen3-4B-Instruct-GGUF
+    filename: qwen3-4b-instruct-q4_k_m.gguf
+    sha256: TBD-FILL-IN-TASK-17
+    tokenizer: Qwen/Qwen3-4B-Instruct
+    params_total_b: 4.0
+    params_active_b: 4.0
+
+  phi-4-mini-instruct:
+    hf_repo: bartowski/Phi-4-mini-instruct-GGUF
+    filename: Phi-4-mini-instruct-Q4_K_M.gguf
+    sha256: TBD-FILL-IN-TASK-17
+    tokenizer: microsoft/Phi-4-mini-instruct
+    params_total_b: 3.8
+    params_active_b: 3.8
