@@ -1,0 +1,8 @@
+cell:
+  run_id: 4gb-1050ti-qwen3-30b-a3b-optimized-moe
+  tier: 4gb
+  model: qwen3-30b-a3b
+  preset: optimized-moe
+  preset_overrides:
+    n_cpu_moe: 40
+    ctx_size: 65536

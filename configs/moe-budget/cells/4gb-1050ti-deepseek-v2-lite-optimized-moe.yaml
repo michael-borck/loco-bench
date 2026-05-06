@@ -1,0 +1,8 @@
+cell:
+  run_id: 4gb-1050ti-deepseek-v2-lite-optimized-moe
+  tier: 4gb
+  model: deepseek-v2-lite
+  preset: optimized-moe
+  preset_overrides:
+    n_cpu_moe: 40
+    ctx_size: 32768

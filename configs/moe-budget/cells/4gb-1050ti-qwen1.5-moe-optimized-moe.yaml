@@ -1,0 +1,8 @@
+cell:
+  run_id: 4gb-1050ti-qwen1.5-moe-optimized-moe
+  tier: 4gb
+  model: qwen1.5-moe-a2.7b
+  preset: optimized-moe
+  preset_overrides:
+    n_cpu_moe: 40
+    ctx_size: 32768

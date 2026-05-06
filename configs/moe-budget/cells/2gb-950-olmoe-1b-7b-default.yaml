@@ -1,0 +1,7 @@
+cell:
+  run_id: 2gb-950-olmoe-1b-7b-default
+  tier: 2gb
+  model: olmoe-1b-7b
+  preset: default
+  preset_overrides:
+    ctx_size: 4096

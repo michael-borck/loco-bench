@@ -1,0 +1,8 @@
+cell:
+  run_id: 8gb-32gbram-2060super-qwen3-30b-a3b-optimized-moe
+  tier: 8gb-32gbram
+  model: qwen3-30b-a3b
+  preset: optimized-moe
+  preset_overrides:
+    n_cpu_moe: 30
+    ctx_size: 262144

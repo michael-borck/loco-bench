@@ -1,0 +1,7 @@
+cell:
+  run_id: 4gb-1050ti-qwen1.5-moe-default
+  tier: 4gb
+  model: qwen1.5-moe-a2.7b
+  preset: default
+  preset_overrides:
+    ctx_size: 4096

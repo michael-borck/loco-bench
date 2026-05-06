@@ -1,0 +1,7 @@
+cell:
+  run_id: 4gb-1050ti-deepseek-v2-lite-default
+  tier: 4gb
+  model: deepseek-v2-lite
+  preset: default
+  preset_overrides:
+    ctx_size: 4096

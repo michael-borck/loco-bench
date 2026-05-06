@@ -1,0 +1,8 @@
+cell:
+  run_id: 6gb-1060-qwen3-30b-a3b-optimized-moe
+  tier: 6gb
+  model: qwen3-30b-a3b
+  preset: optimized-moe
+  preset_overrides:
+    n_cpu_moe: 36
+    ctx_size: 262144

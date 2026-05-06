@@ -1,0 +1,8 @@
+cell:
+  run_id: 2gb-950-olmoe-1b-7b-optimized-moe
+  tier: 2gb
+  model: olmoe-1b-7b
+  preset: optimized-moe
+  preset_overrides:
+    n_cpu_moe: 99
+    ctx_size: 4096

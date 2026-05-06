@@ -1,0 +1,7 @@
+cell:
+  run_id: 8gb-32gbram-2060super-phi-4-mini-default
+  tier: 8gb-32gbram
+  model: phi-4-mini-instruct
+  preset: default
+  preset_overrides:
+    ctx_size: 8192

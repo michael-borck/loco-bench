@@ -1,0 +1,7 @@
+cell:
+  run_id: 2gb-950-tinyllama-default
+  tier: 2gb
+  model: tinyllama-1.1b
+  preset: default
+  preset_overrides:
+    ctx_size: 4096

@@ -1,0 +1,8 @@
+cell:
+  run_id: 8gb-64gbram-2060super-qwen3-next-80b-a3b-optimized-moe
+  tier: 8gb-64gbram
+  model: qwen3-next-80b-a3b
+  preset: optimized-moe
+  preset_overrides:
+    n_cpu_moe: 30
+    ctx_size: 65536
