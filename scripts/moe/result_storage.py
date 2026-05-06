@@ -14,6 +14,7 @@ class CellPaths:
     dir: Path
     config_yaml: Path
     lm_eval_json: Path
+    lm_eval_raw_dir: Path
     niah_json: Path
     llama_bench_json: Path
     resources_json: Path
@@ -27,10 +28,13 @@ def ensure_cell_dir(
     """Create results/moe-budget/<tier>/<model>/<preset>/ and return all output paths."""
     cell_dir = results_root / tier / model / preset
     cell_dir.mkdir(parents=True, exist_ok=True)
+    lm_eval_raw_dir = cell_dir / "lm_eval_raw"
+    lm_eval_raw_dir.mkdir(parents=True, exist_ok=True)
     return CellPaths(
         dir=cell_dir,
         config_yaml=cell_dir / "config.yaml",
         lm_eval_json=cell_dir / "lm_eval.json",
+        lm_eval_raw_dir=lm_eval_raw_dir,
         niah_json=cell_dir / "niah.json",
         llama_bench_json=cell_dir / "llama_bench.json",
         resources_json=cell_dir / "resources.json",

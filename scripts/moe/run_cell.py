@@ -115,6 +115,10 @@ def run_cell(
         ipc_lock=True,
     )
 
+    # Effective context size — caps both NIAH probe lengths and llama-bench upper context.
+    # Both must stay within what the server was booted to handle.
+    ctx = int(inputs.effective_preset.flags.get("ctx_size", 4096))
+
     with LlamaCppServer(server_cfg, inputs.effective_preset) as server:
         # Resource baseline
         if server.pid() is not None:
@@ -126,17 +130,15 @@ def run_cell(
             server_url=server.url,
             tokenizer=inputs.model_entry.tokenizer,
             tasks=quality_tasks,
-            output_dir=paths.dir / "lm_eval_raw",
+            output_dir=paths.lm_eval_raw_dir,
         )
-        results_files = list((paths.dir / "lm_eval_raw").glob("**/results*.json"))
+        results_files = list(paths.lm_eval_raw_dir.glob("**/results*.json"))
         if results_files:
             parsed = parse_lm_eval_results(sorted(results_files, key=lambda p: p.stat().st_mtime)[-1])
             paths.lm_eval_json.write_text(json.dumps(parsed, indent=2))
 
-        # NIAH
+        # NIAH (ctx already defined above)
         lengths = niah_lengths or [1000, 8000, 64000, 256000]
-        # Cap NIAH lengths at preset's ctx_size
-        ctx = int(inputs.effective_preset.flags.get("ctx_size", 4096))
         lengths = [L for L in lengths if L <= ctx]
         if lengths:
             niah_summary = score_at_context_lengths(

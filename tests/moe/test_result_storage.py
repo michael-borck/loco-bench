@@ -21,6 +21,7 @@ def test_ensure_cell_dir_creates_layout(tmp_results_dir: Path) -> None:
     assert paths.dir == tmp_results_dir / "6gb" / "qwen3-30b-a3b" / "optimized-moe"
     assert paths.config_yaml == paths.dir / "config.yaml"
     assert paths.lm_eval_json == paths.dir / "lm_eval.json"
+    assert paths.lm_eval_raw_dir == tmp_results_dir / "6gb" / "qwen3-30b-a3b" / "optimized-moe" / "lm_eval_raw"
     assert paths.niah_json == paths.dir / "niah.json"
     assert paths.llama_bench_json == paths.dir / "llama_bench.json"
     assert paths.resources_json == paths.dir / "resources.json"
