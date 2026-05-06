@@ -1,0 +1,28 @@
+# Named flag bundles for the llama.cpp server. Each cell config references one of these by name.
+# See docs/superpowers/specs/2026-05-06-locobench-moe-budget-design.md §5.
+
+presets:
+  default:
+    description: "Stock llama.cpp server: auto -ngl, mmap on, no mlock, KV cache Q8 (lossless)"
+    flags:
+      ngl: 99               # llama.cpp will silently cap at actual layer count if too high
+      ctx_size: 8192        # default modest context
+
+  optimized-moe:
+    description: "The article's 5 flags applied as a bundle"
+    flags:
+      ngl: 99
+      n_cpu_moe: 35         # tuned per tier — overridden in cell config
+      no_mmap: true
+      mlock: true
+      cache_type_k: q4_0    # Turbo Quant K
+      cache_type_v: q3_0    # Turbo Quant V
+      ctx_size: 262144      # 256K target
+
+  optimized-dense:
+    description: "no-mmap + mlock only. KV Turbo Quant excluded for dense models."
+    flags:
+      ngl: 99
+      no_mmap: true
+      mlock: true
+      ctx_size: 8192
