@@ -90,3 +90,43 @@ models:
     assert isinstance(entry, ModelEntry)
     assert entry.params_active_b == 3
     assert entry.sha256 == "abc123"
+
+
+from scripts.moe.config import CellConfig, load_cell_config
+
+
+def test_load_cell_config(tmp_path: Path) -> None:
+    yaml_text = """
+cell:
+  run_id: 2026-05-08-1060-qwen3-30b-a3b-optimized-moe
+  tier: 6gb
+  model: qwen3-30b-a3b
+  preset: optimized-moe
+  preset_overrides:
+    n_cpu_moe: 35
+    ctx_size: 65536
+"""
+    cfg_path = tmp_path / "cell.yaml"
+    cfg_path.write_text(yaml_text)
+
+    cell = load_cell_config(cfg_path)
+
+    assert isinstance(cell, CellConfig)
+    assert cell.tier == "6gb"
+    assert cell.model == "qwen3-30b-a3b"
+    assert cell.preset == "optimized-moe"
+    assert cell.preset_overrides == {"n_cpu_moe": 35, "ctx_size": 65536}
+    assert cell.run_id == "2026-05-08-1060-qwen3-30b-a3b-optimized-moe"
+
+
+from scripts.moe.config import resolve_preset
+
+
+def test_resolve_preset_overrides_base(sample_preset_yaml: dict) -> None:
+    base = Preset(name=sample_preset_yaml["name"], flags=sample_preset_yaml["flags"])
+
+    merged = resolve_preset(base, {"n_cpu_moe": 36, "ctx_size": 65536})
+
+    assert merged.flags["n_cpu_moe"] == 36
+    assert merged.flags["ctx_size"] == 65536
+    assert merged.flags["mlock"] is True  # untouched by override

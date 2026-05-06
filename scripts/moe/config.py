@@ -83,3 +83,33 @@ def load_models(path: Path) -> dict[str, ModelEntry]:
         )
         for name, body in models_raw.items()
     }
+
+
+@dataclass
+class CellConfig:
+    """One cell of the (tier × model × preset) result matrix."""
+    run_id: str
+    tier: str
+    model: str
+    preset: str
+    preset_overrides: dict[str, Any]
+
+
+def load_cell_config(path: Path) -> CellConfig:
+    """Parse a cell config YAML file."""
+    raw = yaml.safe_load(path.read_text())
+    body = raw["cell"]
+    return CellConfig(
+        run_id=body["run_id"],
+        tier=body["tier"],
+        model=body["model"],
+        preset=body["preset"],
+        preset_overrides=dict(body.get("preset_overrides", {})),
+    )
+
+
+def resolve_preset(preset: Preset, overrides: dict[str, Any]) -> Preset:
+    """Apply cell-level overrides on top of a base preset."""
+    merged = dict(preset.flags)
+    merged.update(overrides)
+    return Preset(name=preset.name, flags=merged)
