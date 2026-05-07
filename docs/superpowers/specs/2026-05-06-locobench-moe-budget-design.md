@@ -96,6 +96,14 @@ The spec is successful if, after execution, we can publish:
 - **OS / runtime:** Linux + Docker, llama.cpp inside container per article's deployment shape
 - **Storage:** any SSD; not in scope as a variable for the primary spec (NVMe-as-RAM-extension is future work, see §7)
 
+### Note for readers on consumer (non-server) boards
+
+The X99M-A "1 DIMM per channel = 4 DIMMs total" guidance above applies to **server boards with quad-channel memory controllers** (X99, X299, EPYC). It does **not** transfer cleanly to **consumer dual-channel boards** (AM5, modern Intel desktop). On those, populating all four DIMM slots often forces the memory controller to downclock to maintain signalling integrity, throttling the very bandwidth this workload needs. The consumer-board rule is the inverse: prefer **2x64GB over 4x32GB** at the same total — fewer slots populated, higher sustained clocks, more usable bandwidth.
+
+A reader running a consumer-tier rig should treat the RAM matrix below as "total RAM target" and choose the 2-DIMM configuration that hits it (2x16GB → 32GB; 2x32GB → 64GB; 2x64GB → 128GB). The MoE+RAM thesis itself is unchanged; only the slot population strategy differs.
+
+See also `loco-bench/src/content/docs/advanced-reference.md` for the upper-tier band where the consumer-board rule applies most.
+
 ### GPU swap matrix
 
 The rig is held constant; GPUs are physically swapped between runs. This controls every variable except VRAM/architecture.

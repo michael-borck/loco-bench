@@ -50,6 +50,7 @@ export default defineConfig({
           label: 'Guide',
           items: [
             { label: 'Benchmarking Guide', slug: 'guide' },
+            { label: 'Advanced Reference', slug: 'advanced-reference' },
           ],
         },
       ],
