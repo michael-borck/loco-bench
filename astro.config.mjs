@@ -9,6 +9,7 @@ export default defineConfig({
       title: 'LocoBench',
       description: 'I have X GB of VRAM — what\'s the best model I can run?',
       favicon: '/favicon.svg',
+      disable404Route: true,
       logo: {
         alt: 'LocoBench',
         src: './src/assets/bench.svg',
