@@ -254,7 +254,7 @@ The GTX pooled track asks a different question: can pre-RTX hardware scale into 
 | 2× GTX 1060 6 GB (12 GB) vs GTX Titan X (12 GB) | Pooled Pascal vs monolithic Maxwell at same VRAM |
 | 3× GTX 1060 6 GB (18 GB) vs P100 (16 GB) | More pooled VRAM (no Tensor Cores) vs less monolithic VRAM (no Tensor Cores, but 4x bandwidth) |
 
-The full multi-GPU experiment design is documented in LocoConvoy: [pooling experiment](https://lococonvoy.org/docs/multi-gpu/) and [tiered inference experiment](https://lococonvoy.org/docs/tiered-inference-experiment/).
+The full multi-GPU experiment design is documented in LocoConvoy: [pooling experiment](https://lococonvoy.org/multi-gpu/) and [tiered inference experiment](https://lococonvoy.org/tiered-inference-experiment/).
 
 These tiers will be added once single-card benchmarks are complete and the multi-GPU overhead is quantified.
 
