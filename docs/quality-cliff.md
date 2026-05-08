@@ -30,4 +30,4 @@ This data is also relevant to adapter-trained model evaluation. If an adapter-tr
 
 Each tier is benchmarked on the worst-in-class GPU for that VRAM level. If it runs here, it runs on your card. Conservative baselines surface optimisations that comfortable hardware conceals.
 
-The bandwidth delta within each tier allows readers to extrapolate to their specific card. For the current card assignments and tier coverage see the [GPU Inventory](https://locolabo.org/docs/gpu-inventory) on the LocoLab site.
+The bandwidth delta within each tier allows readers to extrapolate to their specific card. For the current card assignments and tier coverage see the [GPU Inventory](https://locobench.org/gpu-inventory/).
