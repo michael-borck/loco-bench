@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Download loco-bench models in GGUF format at multiple precision levels.
+# Download loco-banco models in GGUF format at multiple precision levels.
 #
 # All models use GGUF format — including full-precision (BF16/F16) variants.
 # GGUF BF16 is lossless relative to the original HuggingFace weights; it's
@@ -302,7 +302,7 @@ download_deepseek_7b() {
 # ─────────────────────────────────────────────────────────────────────
 
 echo "========================================"
-echo "loco-bench Model Downloader"
+echo "loco-banco Model Downloader"
 echo "========================================"
 echo "Destination: $MODELS_DIR/"
 if [[ -n "$TIER" ]]; then

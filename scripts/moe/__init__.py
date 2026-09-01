@@ -1,4 +1,4 @@
-"""LocoBench MoE-on-a-budget harness.
+"""LocoBanco MoE-on-a-budget harness.
 
 Boots llama.cpp server with named config presets and runs the spec's
 benchmark suite (quality, speed, memory, stability, long-context).

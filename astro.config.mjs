@@ -2,21 +2,21 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
-  site: 'https://locobench.org',
+  site: 'https://locobanco.org',
   integrations: [
     starlight({
-      title: 'LocoBench',
+      title: 'LocoBanco',
       description: 'I have X GB of VRAM — what\'s the best model I can run?',
       favicon: '/favicon.svg',
       disable404Route: true,
       logo: {
-        alt: 'LocoBench',
+        alt: 'LocoBanco',
         src: './src/assets/bench.svg',
         replacesTitle: false,
       },
       social: [
-        { icon: 'external', label: 'Home', href: 'https://locobench.org' },
-        { icon: 'external', label: 'LocoLab', href: 'https://locolabo.org' },
+        { icon: 'external', label: 'Home', href: 'https://locobanco.org' },
+        { icon: 'external', label: 'LocoLabo', href: 'https://locolabo.org' },
       ],
       customCss: ['./src/styles/custom.css'],
       head: [

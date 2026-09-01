@@ -1,12 +1,12 @@
 # The Quality Cliff
 
-Most inference guides recommend a "4 GB minimum" as received wisdom. loco-bench will produce the evidence behind that claim by running a fixed evaluation set across every tier in the stack.
+Most inference guides recommend a "4 GB minimum" as received wisdom. loco-banco will produce the evidence behind that claim by running a fixed evaluation set across every tier in the stack.
 
 ## Methodology
 
 The same 15 prompts -- spanning reasoning, factual recall, instruction following, and multi-step tasks -- will be run at every VRAM tier using the best-fit model for that tier at Q4 quantisation. Results will be scored for coherence and accuracy and published as a comparable chart.
 
-The tier stack deliberately extends down to 2 GB. This is not because 2 GB is a useful inference target -- it isn't -- but because documenting where quality degrades and why is a research output in its own right. Most inference guides assert a "4 GB minimum" without evidence. loco-bench will show the data behind that claim.
+The tier stack deliberately extends down to 2 GB. This is not because 2 GB is a useful inference target -- it isn't -- but because documenting where quality degrades and why is a research output in its own right. Most inference guides assert a "4 GB minimum" without evidence. loco-banco will show the data behind that claim.
 
 ## Expected Results
 
@@ -30,4 +30,4 @@ This data is also relevant to adapter-trained model evaluation. If an adapter-tr
 
 Each tier is benchmarked on the worst-in-class GPU for that VRAM level. If it runs here, it runs on your card. Conservative baselines surface optimisations that comfortable hardware conceals.
 
-The bandwidth delta within each tier allows readers to extrapolate to their specific card. For the current card assignments and tier coverage see the [GPU Inventory](https://locobench.org/gpu-inventory/).
+The bandwidth delta within each tier allows readers to extrapolate to their specific card. For the current card assignments and tier coverage see the [GPU Inventory](https://locobanco.org/gpu-inventory/).

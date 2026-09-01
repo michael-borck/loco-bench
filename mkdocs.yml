@@ -1,8 +1,8 @@
-site_name: loco-bench
-site_url: https://locobench.org/
+site_name: loco-banco
+site_url: https://locobanco.org/
 site_description: "I have X GB of VRAM — what's the best model I can run?"
-repo_url: https://github.com/michael-borck/loco-bench
-repo_name: michael-borck/loco-bench
+repo_url: https://github.com/michael-borck/loco-banco
+repo_name: michael-borck/loco-banco
 
 theme:
   name: material

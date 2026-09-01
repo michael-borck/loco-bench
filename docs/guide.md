@@ -1,10 +1,10 @@
 # Benchmarking Guide
 
-This document covers how to run loco-bench benchmarks, what hardware to use, and how to produce the "bang per bit" analysis that fills a genuine gap in the literature.
+This document covers how to run loco-banco benchmarks, what hardware to use, and how to produce the "bang per bit" analysis that fills a genuine gap in the literature.
 
 ## What We're Measuring and Why
 
-Most published benchmarks evaluate full-precision models on cloud hardware. Nobody systematically compares everything that fits within a given VRAM budget — full-precision small models against quantized larger models — on consumer hardware. That's the gap loco-bench fills.
+Most published benchmarks evaluate full-precision models on cloud hardware. Nobody systematically compares everything that fits within a given VRAM budget — full-precision small models against quantized larger models — on consumer hardware. That's the gap loco-banco fills.
 
 We're running two distinct benchmarks that serve different purposes:
 
@@ -152,7 +152,7 @@ Run the benchmarks in tiers:
 
 ## GPU Tier Methodology
 
-loco-bench benchmarks each VRAM tier using the **worst-in-class GPU** for that tier. This is a deliberate choice: the floor of each tier gives a conservative baseline that's more useful than a cherry-picked best case. The implicit promise is:
+loco-banco benchmarks each VRAM tier using the **worst-in-class GPU** for that tier. This is a deliberate choice: the floor of each tier gives a conservative baseline that's more useful than a cherry-picked best case. The implicit promise is:
 
 > "If it runs here, it runs on your card."
 
@@ -191,12 +191,12 @@ Bandwidth deltas between cards within a tier are documented in `nvidia-gpu-refer
 
 ### The RTX 3090: Reference Ceiling
 
-The RTX 3090 (24GB, 936 GB/s) sits outside the affordable range for most LocoBench users. It is included not as a recommendation but as a **comparison ceiling** — the answer to "what am I missing out on by staying in the affordable tiers?"
+The RTX 3090 (24GB, 936 GB/s) sits outside the affordable range for most LocoBanco users. It is included not as a recommendation but as a **comparison ceiling** — the answer to "what am I missing out on by staying in the affordable tiers?"
 
 - 24GB VRAM is the consumer ceiling for secondhand GPUs
 - It validates whether the floor-tier results scale predictably upward
 - The bandwidth story at 936 GB/s provides genuinely interesting comparative data against the floor cards
-- Most LocoBench users have 8GB cards or less — the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
+- Most LocoBanco users have 8GB cards or less — the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
 
 ### The Server GPUs: P100 and V100
 
@@ -258,7 +258,7 @@ This shows whether fine-tuning recovers quantization losses. If the adapter line
 Upload the raw results as a HuggingFace Dataset. This makes the data reproducible and citable.
 
 ```
-loco-bench/results
+loco-banco/results
   results/
     qwen3-4b-instruct/
       bf16.json
@@ -291,7 +291,7 @@ The benchmark data frames as:
 
 ## Community Contributions
 
-Colmena generates the reference baseline -- controlled, repeatable, well documented. But the real value of loco-bench grows when the community extends coverage across hardware Colmena will never have.
+Colmena generates the reference baseline -- controlled, repeatable, well documented. But the real value of loco-banco grows when the community extends coverage across hardware Colmena will never have.
 
 ### Why Community Results Matter
 
@@ -302,20 +302,20 @@ Colmena generates the reference baseline -- controlled, repeatable, well documen
 
 ### How to Contribute
 
-Run the same loco-bench test suite on your hardware and submit results. The goal is one command to run, one command to submit. The harder it is, the fewer submissions we get.
+Run the same loco-banco test suite on your hardware and submit results. The goal is one command to run, one command to submit. The harder it is, the fewer submissions we get.
 
 Results should include:
 
 - GPU model and VRAM
 - Driver version and CUDA version
-- The standard loco-bench output (lm-eval JSON + llama-bench CSV)
+- The standard loco-banco output (lm-eval JSON + llama-bench CSV)
 - Any relevant system context (CPU, RAM, OS)
 
 Submission format and tooling are being developed. The design constraint is simplicity -- if it takes more than a few minutes to set up and run, it's too complicated.
 
 ### Apple Silicon
 
-Apple Silicon results are particularly interesting comparative data. The same loco-bench suite running on M1/M2/M3 hardware via Metal and MLX produces a direct cross-platform comparison that doesn't exist elsewhere in the literature.
+Apple Silicon results are particularly interesting comparative data. The same loco-banco suite running on M1/M2/M3 hardware via Metal and MLX produces a direct cross-platform comparison that doesn't exist elsewhere in the literature.
 
 ## Estimated Time and Cost
 

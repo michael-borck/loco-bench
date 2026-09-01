@@ -2,7 +2,7 @@
 title: "VRAM Tier Reference"
 ---
 
-The organising principle of loco-bench: **models are grouped by what fits in your VRAM budget, not by model family or parameter count.**
+The organising principle of loco-banco: **models are grouped by what fits in your VRAM budget, not by model family or parameter count.**
 
 Within each tier, every model that fits — at any precision level — competes on quality, speed, and efficiency.
 
@@ -183,7 +183,7 @@ Three cards at the same VRAM, three different architectures. The RTX 4060 Ti is 
 **Usable VRAM:** ~22 GB
 **Benchmark GPU:** RTX 3090 (936 GB/s) — Colmena
 
-The 3090 sits outside the affordable secondhand range for most LocoBench users. It is included not as a recommendation but as a **comparison ceiling** — the answer to "what am I missing out on?" For small models at Q4_K_M, the answer is often "less than you'd think." That's a valuable finding that validates the floor-tier approach.
+The 3090 sits outside the affordable secondhand range for most LocoBanco users. It is included not as a recommendation but as a **comparison ceiling** — the answer to "what am I missing out on?" For small models at Q4_K_M, the answer is often "less than you'd think." That's a valuable finding that validates the floor-tier approach.
 
 Everything from lower tiers, plus:
 
@@ -276,4 +276,4 @@ Summary view — the maximum parameter count that comfortably fits at each preci
 | 24 GB | ≤8B | ≤14B | ≤14B+ | ≤14B+ |
 | 32 GB | ≤14B | ≤14B+ | ≤14B+ | ≤14B+ |
 
-This is the decision matrix loco-bench produces data for. The question is always: **within your VRAM budget, which combination of model size and precision gives the best results?**
+This is the decision matrix loco-banco produces data for. The question is always: **within your VRAM budget, which combination of model size and precision gives the best results?**

@@ -2,7 +2,7 @@
 title: "GPU Inventory"
 ---
 
-Every GPU currently in the LocoLab project, organised by machine. Cards move between machines as experiments require -- this is the current assignment.
+Every GPU currently in the LocoLabo project, organised by machine. Cards move between machines as experiments require -- this is the current assignment.
 
 For specifications, acquisition guidance, and generation-level analysis see the [Nvidia GPU Reference](nvidia-gpu-reference).
 
@@ -10,7 +10,7 @@ For specifications, acquisition guidance, and generation-level analysis see the 
 
 ## Colmena
 
-The RTX-era benchmark platform. An 8-GPU enclosed mining rig running LocoBench. Cards here are chosen as **floor representatives** -- the worst card per VRAM tier, so results are honest baselines. Matched trios give repeat-measurement discipline at their tier.
+The RTX-era benchmark platform. An 8-GPU enclosed mining rig running LocoBanco. Cards here are chosen as **floor representatives** -- the worst card per VRAM tier, so results are honest baselines. Matched trios give repeat-measurement discipline at their tier.
 
 | Card | VRAM | Bandwidth | Tier Role |
 |------|------|-----------|-----------|
@@ -23,7 +23,7 @@ The RTX-era benchmark platform. An 8-GPU enclosed mining rig running LocoBench. 
 
 ## Tortuga
 
-Swappable bench cards. Cards rotate through Tortuga to fill out LocoBench tier coverage, particularly the older Maxwell and Pascal generations.
+Swappable bench cards. Cards rotate through Tortuga to fill out LocoBanco tier coverage, particularly the older Maxwell and Pascal generations.
 
 | Card | VRAM | Bandwidth | Tier Role |
 |------|------|-----------|-----------|
@@ -40,7 +40,7 @@ Swappable bench cards. Cards rotate through Tortuga to fill out LocoBench tier c
 
 ## Hidra
 
-Full-bandwidth multi-GPU research, server GPU benchmarking, and GPU onboarding. X99 dual-Xeon platform with 4x PCIe x16 slots in an open-frame chassis for rapid card swaps. The server GPUs are the primary LocoBench payload at their native VRAM tiers; consumer cards rotate through for onboarding and fill-in benchmarks.
+Full-bandwidth multi-GPU research, server GPU benchmarking, and GPU onboarding. X99 dual-Xeon platform with 4x PCIe x16 slots in an open-frame chassis for rapid card swaps. The server GPUs are the primary LocoBanco payload at their native VRAM tiers; consumer cards rotate through for onboarding and fill-in benchmarks.
 
 **Server GPUs:**
 
@@ -107,8 +107,8 @@ Low-profile / office deployment.
 
 | Machine | Cards | Primary Role |
 |---------|-------|-------------|
-| Colmena | 8 | RTX-era LocoBench consumer tier benchmarking |
-| Tortuga | 8 | Swappable tier cards for pre-RTX LocoBench coverage |
+| Colmena | 8 | RTX-era LocoBanco consumer tier benchmarking |
+| Tortuga | 8 | Swappable tier cards for pre-RTX LocoBanco coverage |
 | Hidra | 5 | LocoConvoy multi-GPU + server GPU benchmarking + onboarding (2 server cards installed, 4 incoming) |
 | Puente | 1 | LocoPuente PoC + LocoEnsayo chatbots (RTX 3090 24 GB) |
 | Búho | 1 | Dedicated LocoLLM adapter training and single-card inference |
@@ -120,4 +120,4 @@ Low-profile / office deployment.
 
 ---
 
-*For GPU generation details and acquisition guidance see [Nvidia GPU Reference](nvidia-gpu-reference). For benchmarking methodology see the loco-bench documentation.*
+*For GPU generation details and acquisition guidance see [Nvidia GPU Reference](nvidia-gpu-reference). For benchmarking methodology see the loco-banco documentation.*

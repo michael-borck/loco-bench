@@ -1,12 +1,12 @@
-# loco-bench
+# loco-banco
 
-**I have X GB of VRAM — what's the best model I can run?**
+**I have X GB of VRAM. What's the best model I can run?**
 
-HuggingFace tells you which small model is best at full precision. The Open LLM Leaderboard tells you which large model is best on datacenter GPUs. **loco-bench tells you which model is best for your actual card.**
+HuggingFace tells you which small model is best at full precision. The Open LLM Leaderboard tells you which large model is best on datacenter GPUs. **loco-banco tells you which model is best for your actual card.**
 
-Most benchmarks compare models under ideal conditions. loco-bench compares everything that fits within a given VRAM budget — full-precision small models, quantized larger models, and everything in between — on real consumer hardware.
+Most benchmarks compare models under ideal conditions. loco-banco compares everything that fits within a given VRAM budget (full-precision small models, quantized larger models, and everything in between) on real consumer hardware.
 
-A full-precision SmolLM2-1.7B and a Q4_K_M Qwen3-4B both fit in 4GB of VRAM. Which one is actually better? That's the question loco-bench answers.
+A full-precision SmolLM2-1.7B and a Q4_K_M Qwen3-4B both fit in 4GB of VRAM. Which one is actually better? That's the question loco-banco answers.
 
 ## How It Works
 
@@ -28,7 +28,7 @@ Each tier is benchmarked on the **worst-in-class GPU** for that VRAM level. If i
 
 ## The Model Matrix
 
-All models use **GGUF format** at every precision level — from lossless BF16 down to aggressive Q2_K quantization. GGUF BF16 preserves the original model precision; it's the same weights in a container format optimised for local inference. This means a BF16 SmolLM2-1.7B and a Q4_K_M Qwen3-4B are evaluated through the same toolchain.
+All models use **GGUF format** at every precision level, from lossless BF16 down to aggressive Q2_K quantization. GGUF BF16 preserves the original model precision; it's the same weights in a container format optimised for local inference. This means a BF16 SmolLM2-1.7B and a Q4_K_M Qwen3-4B are evaluated through the same toolchain.
 
 ### 16 Models (0.135B to 7B)
 
@@ -57,11 +57,11 @@ Within each VRAM tier, every model that fits at any precision level competes. Fo
 
 Standard benchmarks from the Open LLM Leaderboard (via [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)):
 
-- **MMLU** — knowledge
-- **HellaSwag** — commonsense reasoning
-- **GSM8K** — math reasoning
-- **TruthfulQA** — factuality
-- **ARC-Challenge** — science reasoning
+- **MMLU**: knowledge
+- **HellaSwag**: commonsense reasoning
+- **GSM8K**: math reasoning
+- **TruthfulQA**: factuality
+- **ARC-Challenge**: science reasoning
 
 Plus speed and efficiency metrics: tokens/sec, time-to-first-token, peak RAM, perplexity.
 
@@ -88,15 +88,15 @@ lm_eval --model hf \
   --output_path results/qwen3-4b-q4_k_m/
 ```
 
-That comparison — full-precision 1.7B vs quantized 4B at the same VRAM footprint — is the core of what loco-bench measures.
+That comparison, full-precision 1.7B vs quantized 4B at the same VRAM footprint, is the core of what loco-banco measures.
 
 ## Turnkey Benchmarking (Planned)
 
 ```bash
-pip install loco-bench
-loco-bench detect          # reads your GPU, reports VRAM tier
-loco-bench run --tier 8gb  # runs the appropriate model set for your tier
-loco-bench submit          # packages results for community submission
+pip install loco-banco
+loco-banco detect          # reads your GPU, reports VRAM tier
+loco-banco run --tier 8gb  # runs the appropriate model set for your tier
+loco-banco submit          # packages results for community submission
 ```
 
 ## Scripts
@@ -121,7 +121,7 @@ bash scripts/convert_and_quantize.sh HuggingFaceTB/SmolLM2-1.7B-Instruct
 # Just Q4_K_M (fast)
 bash scripts/convert_and_quantize.sh google/gemma-3-1b-it --q4-only
 
-# Convert and upload to the loco-bench HuggingFace org
+# Convert and upload to the loco-banco HuggingFace org
 bash scripts/convert_and_quantize.sh HuggingFaceTB/SmolLM2-1.7B-Instruct --upload
 ```
 
@@ -129,7 +129,7 @@ This requires [llama.cpp](https://github.com/ggml-org/llama.cpp) built locally. 
 
 ## Hardware
 
-All benchmarks run on [Colmena](docs/colmena.md), a deliberately constrained 8-GPU rig built around an i3-3220 host. Each VRAM tier is benchmarked on the floor card for that tier — if it runs here, it runs on your card.
+All benchmarks run on [Colmena](docs/colmena.md), a deliberately constrained 8-GPU rig built around an i3-3220 host. Each VRAM tier is benchmarked on the floor card for that tier. If it runs here, it runs on your card.
 
 | VRAM Tier | GPU | Role |
 |---|---|---|
@@ -140,24 +140,24 @@ All benchmarks run on [Colmena](docs/colmena.md), a deliberately constrained 8-G
 | 16GB | RTX 4060 Ti 16GB | Floor of 16GB consumer tier |
 | 16GB | Tesla P100 | 16GB server tier (HBM2, no Tensor Cores) |
 | 16GB | Tesla V100 16GB | 16GB server tier (HBM2, Tensor Cores; home lab) |
-| 24GB | RTX 3090 | Consumer ceiling — outside affordable range, benchmarked for comparison |
+| 24GB | RTX 3090 | Consumer ceiling, outside affordable range, benchmarked for comparison |
 | 32GB | Tesla V100 32GB | Server tier (HBM2, Tensor Cores) |
 
 See the [Colmena spec sheet](docs/colmena.md) for full system details and benchmark philosophy.
 
 ## Documentation
 
-Full documentation is available at the [loco-bench docs site](https://locobench.org/), including:
+Full documentation is available at the [loco-banco docs site](https://locobanco.org/), including:
 
-- [Colmena](docs/colmena.md) — benchmark reference machine specs and philosophy
-- [Benchmarking Guide](docs/guide.md) — methodology, tools, and how to contribute results
-- [Quality Analysis](docs/quality.md) — per-task scores and quantization degradation curves
-- [Speed Analysis](docs/speed.md) — generation speed, prompt processing, time-to-first-token
-- [Bang per Bit](docs/bang-per-bit.md) — Pareto efficiency frontiers and tradeoffs
+- [Colmena](docs/colmena.md): benchmark reference machine specs and philosophy
+- [Benchmarking Guide](docs/guide.md): methodology, tools, and how to contribute results
+- [Quality Analysis](docs/quality.md): per-task scores and quantization degradation curves
+- [Speed Analysis](docs/speed.md): generation speed, prompt processing, time-to-first-token
+- [Bang per Bit](docs/bang-per-bit.md): Pareto efficiency frontiers and tradeoffs
 
 ## Publishing Plan
 
-- **HuggingFace Org ([loco-bench](https://huggingface.co/loco-bench)):** Central home for models, data, and the dashboard
+- **HuggingFace Org ([loco-banco](https://huggingface.co/loco-banco)):** Central home for models, data, and the dashboard
   - **Model repos:** GGUFs we produce ourselves (filling gaps where no pre-built GGUF exists)
   - **Dataset:** Raw benchmark results (JSON from lm-eval + llama-bench CSVs) for reproducibility
   - **Space:** Interactive dashboard for exploring results by VRAM tier
@@ -166,17 +166,17 @@ Full documentation is available at the [loco-bench docs site](https://locobench.
 
 ## Related Projects
 
-- [LocoLLM](https://github.com/michael-borck/loco-llm) — uses LocoBench data to inform base model selection for a routed adapter system
-- [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) — the evaluation backend
-- [llama.cpp](https://github.com/ggml-org/llama.cpp) — quantization and inference engine
+- [LocoLLM](https://github.com/michael-borck/loco-llm): uses LocoBanco data to inform base model selection for a routed adapter system
+- [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness): the evaluation backend
+- [llama.cpp](https://github.com/ggml-org/llama.cpp): quantization and inference engine
 
 ## Related Research
 
 These experiments have spun off into their own projects:
 
-- **[LocoConvoy](https://github.com/michael-borck/loco-convoy)** — multi-GPU inference on consumer hardware
-- **Perceived Intelligence vs Token Rate** — does a faster small model feel smarter than a slower large model?
-- **Context Length Effects** — how does context length affect quality, speed, and VRAM usage for small models?
+- **[LocoConvoy](https://github.com/michael-borck/loco-convoy)**: multi-GPU inference on consumer hardware
+- **Perceived Intelligence vs Token Rate**: does a faster small model feel smarter than a slower large model?
+- **Context Length Effects**: how does context length affect quality, speed, and VRAM usage for small models?
 
 ## Contributing
 

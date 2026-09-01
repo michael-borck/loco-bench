@@ -1,6 +1,6 @@
 # VRAM Tier Reference
 
-The organising principle of loco-bench: **models are grouped by what fits in your VRAM budget, not by model family or parameter count.**
+The organising principle of loco-banco: **models are grouped by what fits in your VRAM budget, not by model family or parameter count.**
 
 Within each tier, every model that fits — at any precision level — competes on quality, speed, and efficiency.
 
@@ -136,7 +136,7 @@ Everything from lower tiers, plus:
 **Usable VRAM:** ~22 GB
 **Benchmark GPU:** RTX 3090 (936 GB/s)
 
-The 3090 sits outside the affordable range for most LocoBench users. It is included not as a recommendation but as a **comparison ceiling** -- the answer to "what am I missing out on?"
+The 3090 sits outside the affordable range for most LocoBanco users. It is included not as a recommendation but as a **comparison ceiling** -- the answer to "what am I missing out on?"
 
 Everything from lower tiers, plus:
 
@@ -202,4 +202,4 @@ Summary view — the maximum parameter count that comfortably fits at each preci
 | 24GB | ≤8B | ≤14B | ≤14B+ | ≤14B+ |
 | 32GB | ≤14B | ≤14B+ | ≤14B+ | ≤14B+ |
 
-This is the decision matrix loco-bench produces data for. The question is always: **within your VRAM budget, which combination of model size and precision gives the best results?**
+This is the decision matrix loco-banco produces data for. The question is always: **within your VRAM budget, which combination of model size and precision gives the best results?**

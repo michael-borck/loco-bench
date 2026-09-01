@@ -2,11 +2,11 @@
 title: "Benchmarking Guide"
 ---
 
-This document covers how to run LocoBench benchmarks, what hardware to use, and how to produce the "bang per bit" analysis that fills a genuine gap in the literature.
+This document covers how to run LocoBanco benchmarks, what hardware to use, and how to produce the "bang per bit" analysis that fills a genuine gap in the literature.
 
 ## What We're Measuring and Why
 
-Most published benchmarks evaluate full-precision models on cloud hardware. Nobody systematically compares everything that fits within a given VRAM budget -- full-precision small models against quantized larger models -- on consumer hardware. That's the gap LocoBench fills.
+Most published benchmarks evaluate full-precision models on cloud hardware. Nobody systematically compares everything that fits within a given VRAM budget -- full-precision small models against quantized larger models -- on consumer hardware. That's the gap LocoBanco fills.
 
 We're running two distinct benchmarks that serve different purposes:
 
@@ -127,9 +127,9 @@ All benchmarks run on [Colmena](colmena), a deliberately constrained 8-GPU rig.
 
 ## Community Contributions
 
-Run the same LocoBench test suite on your hardware and submit results. The goal is one command to run, one command to submit.
+Run the same LocoBanco test suite on your hardware and submit results. The goal is one command to run, one command to submit.
 
-Results should include: GPU model and VRAM, driver and CUDA version, standard LocoBench output (lm-eval JSON + llama-bench CSV), and system context (CPU, RAM, OS).
+Results should include: GPU model and VRAM, driver and CUDA version, standard LocoBanco output (lm-eval JSON + llama-bench CSV), and system context (CPU, RAM, OS).
 
 ## Key References
 

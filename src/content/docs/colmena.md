@@ -2,7 +2,7 @@
 title: "Benchmark Hardware"
 ---
 
-LocoBench runs across four machines. Colmena covers the RTX-era consumer tiers. Tortuga covers the pre-RTX legacy tiers. Hormiga anchors the SFF reference floor. Hidra covers the server GPU tiers (Tesla V100 16 GB and P100 16 GB installed; M40 24 GB and P40 24 GB incoming) on an open-frame X99 workstation with full x16 PCIe, which also doubles as the LocoConvoy multi-GPU experiment platform and the GPU onboarding station. Búho hosts the V100 32 GB for LocoLLM adapter training and contributes benchmark data at the 32 GB tier when training is idle. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
+LocoBanco runs across four machines. Colmena covers the RTX-era consumer tiers. Tortuga covers the pre-RTX legacy tiers. Hormiga anchors the SFF reference floor. Hidra covers the server GPU tiers (Tesla V100 16 GB and P100 16 GB installed; M40 24 GB and P40 24 GB incoming) on an open-frame X99 workstation with full x16 PCIe, which also doubles as the LocoConvoy multi-GPU experiment platform and the GPU onboarding station. Búho hosts the V100 32 GB for LocoLLM adapter training and contributes benchmark data at the 32 GB tier when training is idle. Understanding the specifications is essential for interpreting results and extrapolating to your own hardware.
 
 ## System Specifications
 
@@ -66,7 +66,7 @@ Pre-RTX cards without Tensor Cores. Powered on for benchmark runs only.
 
 Both chassis are deliberately constrained machines. Colmena's i3-3220 CPU, 8 GB RAM ceiling, and modest storage exist by design, not accident. Tortuga is similar.
 
-The CPU's job is to boot the OS and manage the PCIe bus. The GPUs do the work. Over-speccing the host system would make the benchmarks less representative -- LocoBench measures GPU capability on modest hardware, which is what most users actually have.
+The CPU's job is to boot the OS and manage the PCIe bus. The GPUs do the work. Over-speccing the host system would make the benchmarks less representative -- LocoBanco measures GPU capability on modest hardware, which is what most users actually have.
 
 The RAM constraint means sequential rather than fully parallel benchmarking. Results are identical -- same hardware, same models -- the runs just don't happen simultaneously.
 
@@ -74,7 +74,7 @@ The RAM constraint means sequential rather than fully parallel benchmarking. Res
 
 The entire local LLM toolchain -- Ollama, llama.cpp, PyTorch, bitsandbytes, Unsloth -- targets CUDA first. AMD's ROCm stack exists and is improving, but driver support is narrower, community troubleshooting is thinner, and the tooling friction is meaningfully higher. Intel Arc is earlier still. For a lab that needs to work reliably with minimal sysadmin overhead, CUDA is the only practical choice today.
 
-The secondhand market reinforces this. The cryptocurrency mining boom flooded resale channels with Nvidia consumer cards at accessible prices. AMD equivalents at the same VRAM tiers are rarer and less standardised. And the overwhelming majority of users running local LLMs on consumer hardware are on Nvidia -- loco-bench floor cards need to represent what people actually have.
+The secondhand market reinforces this. The cryptocurrency mining boom flooded resale channels with Nvidia consumer cards at accessible prices. AMD equivalents at the same VRAM tiers are rarer and less standardised. And the overwhelming majority of users running local LLMs on consumer hardware are on Nvidia -- loco-banco floor cards need to represent what people actually have.
 
 Apple Silicon is the exception, and Poco covers that path via Metal and MLX. If ROCm matures to the point where an AMD card is a genuine drop-in for Ollama inference, it becomes a candidate for a Colmena slot. That day isn't today.
 
@@ -82,7 +82,7 @@ What matters for replication is capability tier, not specific parts. Match the V
 
 ## Reference Baselines
 
-Colmena and Tortuga together generate the controlled, repeatable reference results -- RTX-era tiers from Colmena, pre-RTX tiers from Tortuga, SFF validation from Hormiga. Community members running the same LocoBench suite on their own hardware extend coverage across GPUs the lab will never have. See the [Community Contributions](guide#community-contributions) section in the benchmarking guide for how to submit results.
+Colmena and Tortuga together generate the controlled, repeatable reference results -- RTX-era tiers from Colmena, pre-RTX tiers from Tortuga, SFF validation from Hormiga. Community members running the same LocoBanco suite on their own hardware extend coverage across GPUs the lab will never have. See the [Community Contributions](guide#community-contributions) section in the benchmarking guide for how to submit results.
 
 ## Benchmark Philosophy: Floor of Tier
 
@@ -94,12 +94,12 @@ Community submissions extend each tier upward. The bandwidth delta within each t
 
 ### Why the RTX 3090?
 
-The 3090 lives on Puente as the primary card for the LocoPuente PoC and LocoEnsayo chatbots; it contributes to LocoBench as the 24 GB consumer comparison ceiling when its primary workload is idle. It sits outside the affordable range for most LocoBench users and is included not as a recommendation but as a **comparison ceiling** -- the answer to "what am I missing out on by staying in the affordable tiers?"
+The 3090 lives on Puente as the primary card for the LocoPuente PoC and LocoEnsayo chatbots; it contributes to LocoBanco as the 24 GB consumer comparison ceiling when its primary workload is idle. It sits outside the affordable range for most LocoBanco users and is included not as a recommendation but as a **comparison ceiling** -- the answer to "what am I missing out on by staying in the affordable tiers?"
 
 - 24 GB VRAM is the consumer ceiling for secondhand GPUs
 - Validates whether floor-tier results scale predictably upward
 - 936 GB/s bandwidth provides genuinely interesting comparative data against the affordable cards
-- Most LocoBench users have 8 GB cards or less -- the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
+- Most LocoBanco users have 8 GB cards or less -- the 3090 result tells them what they're leaving on the table, and in many cases the answer will be "not as much as you'd think"
 
 ### Why the Server GPUs?
 
@@ -107,4 +107,4 @@ The Tesla P100 (16 GB) and V100 16 GB (both on Hidra), plus the V100 32 GB (on B
 
 The server GPUs test a different question than the consumer cards: **does HBM2 bandwidth compensate for older architecture?** The P100 has no Tensor Cores but 732 GB/s bandwidth -- faster than every consumer card below the 3090. The V100s add Tensor Cores and 900 GB/s bandwidth. At the 16 GB tier, three cards with the same VRAM but wildly different architectures (RTX 4060 Ti on Colmena -- Ada Lovelace; P100 and V100 16 GB on Hidra -- Pascal and Volta) make the cleanest test in the lineup for isolating what actually drives inference speed.
 
-**24 GB server tier expansion (incoming).** The Tesla M40 24 GB (Maxwell, Compute 5.2) and Tesla P40 (Pascal, Compute 6.1) are on their way and will extend Hidra's server coverage to 24 GB. Together they enable a clean same-VRAM, different-architecture comparison at 24 GB -- the counterpart to the 16 GB three-architecture test already in the fleet. The M40 also sits at the LocoBench Compute 5.0 floor, making it the oldest server card worth benchmarking. See the Server GPUs section of `nvidia-gpu-reference.md` for the per-card rationale.
+**24 GB server tier expansion (incoming).** The Tesla M40 24 GB (Maxwell, Compute 5.2) and Tesla P40 (Pascal, Compute 6.1) are on their way and will extend Hidra's server coverage to 24 GB. Together they enable a clean same-VRAM, different-architecture comparison at 24 GB -- the counterpart to the 16 GB three-architecture test already in the fleet. The M40 also sits at the LocoBanco Compute 5.0 floor, making it the oldest server card worth benchmarking. See the Server GPUs section of `nvidia-gpu-reference.md` for the per-card rationale.
